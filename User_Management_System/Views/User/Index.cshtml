@@ -1,0 +1,126 @@
+﻿@{
+    ViewData["Title"] = "UMS";
+    var user = TempData["user"];
+    var userid = TempData["userId"];
+    var username = TempData["userName"] as string;
+    var useremail = TempData["Email"] as string;
+    var usergender = TempData["Gender"] as string;
+    var userdob = TempData["DOB"]  ;
+    var userphone = TempData["Phone"] as string;
+    var userdept = TempData["DeptName"] as string;
+    var success = TempData["Success"];
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script>
+    function updateData() {
+
+      document.getElementById("saveUser").hidden = false;
+       document.getElementById("updateUser").hidden=true;
+    }
+    function removeReadonly() {
+       
+        document.getElementById("usernameDisplay").removeAttribute('readonly');
+        document.getElementById("emailDisplay").removeAttribute('readonly');
+        document.getElementById("dobDisplay").removeAttribute('readonly');
+        document.getElementById("genderDisplay").removeAttribute('readonly');
+        document.getElementById("departmentDisplay").removeAttribute('readonly');
+        document.getElementById("phoneDisplay").removeAttribute('readonly');
+        updateData();
+    }
+    function deletePopup(){
+        alert("data deleted");
+    }
+    function savePopup() {
+        alert("data saved");
+    }
+    // $("#saveUser").click(function (e) {
+    //     e.preventDefault();
+    //     alert("saveUser called.");
+    // });
+
+
+</script>
+<div class="text-center">
+    @{
+        if (user == null)
+        {
+
+                                                <h class="display-4">Welcome to </h>
+                                                <p><span class="h3 ">@ViewData["Title"]</span></p>
+        }
+        else
+        {
+                                                <h class="display-4">Welcome </h>
+                                                <p><span class="h3 ">@user</span></p>
+        }
+        
+    }
+
+</div>
+<div class="text-center">
+    <input type="text" name="search" value="" />
+    <button type="button" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-search"></span> Search
+    </button>
+
+ </div>
+@{
+    if (@userid != null)
+    {
+   
+        <div class="text-center h-100 d-flex align-items-center justify-content-center">
+            <div class="card m-md-3 mx-auto" style="width:50rem; height:70rem;">
+                <div class="card-body py-5 px-md-5">
+
+                    <h1 style="text-align:center">Dashboard </h1>
+                    <br />
+                    <form asp-action="Index" asp-controller="User" method="post" style="text-align:left justify">
+                        <div class="form-group">
+                            <label for="userId">User Id:</label>
+                            <input type="text" id="userIdDisplay" name="userId" value=@userid readonly>
+                        </div><br />
+                        <div class="form-group">
+                            <label for="username">User Name:</label>
+                            <input type="text" id="usernameDisplay" name="username" value='@username'  readonly>
+                        </div><br />
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" id="emailDisplay" name="email" value=@useremail readonly>
+                        </div> <br />
+                        <div class="form-group">
+                            <label for="dob">Date of Birth:</label>
+                            <input type="datetime" id="dobDisplay" name="dob" value=@userdob readonly>
+                        </div> <br />
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <input type="text" id="genderDisplay" name="gender" maxlength="1" value=@usergender readonly>
+
+                        </div> <br />
+                        <div class="form-group">
+                            <label for="department">Department Name:</label>
+                            <input type="text" id="departmentDisplay" name="department" value=@userdept readonly>
+                        </div> <br />
+                        <div class="form-group">
+                            <label for="phone">Phone Numbers:</label>
+                            <input type="text" name="phone" value=@userphone size="10" id="phoneDisplay" readonly />
+                            <br> <br>
+                        </div> <br />
+
+                        <button type="button" name="buttontype" value="update" class="btn btn-primary" id="updateUser" onclick="removeReadonly()">Update</button>
+                        <button type="submit" name="buttontype" value="save" class="btn btn-primary" id="saveUser" hidden="true" onclick="savePopup()">save</button>
+                        <button type="submit" name="buttontype" value="delete" class="btn btn-primary" id="deleteUser" onclick="deletePopup()">Delete</button>
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+        </div>
+    }
+}
+
+
