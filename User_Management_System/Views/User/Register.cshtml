@@ -9,76 +9,147 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Registration Form</title>
-    
+    <title>Registration Form</title>
+    <style> 
+        body{
+            background: linear-gradient(135deg, #845ec2,#d8eff8,#2989a6);
+        }
+        
+        .center{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card {
+          
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #6f86d6, #48c6ef);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 40%;
+            max-width: 500px;
+            transition: box-shadow 0.3s ease;
+        }
+
+            .card:hover {
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            }
+
+            .card h1 {
+                margin-bottom: 20px;
+                font-size: 28px;
+                font-weight: 700;
+                text-align: center;
+                color: #333;
+            }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+            .form-group label {
+                display: block;
+                margin-bottom: 8px;
+                font-weight: 600;
+                color: #555;
+            }
+
+            .form-group input, .form-group select {
+                width:100%;
+                padding: 12px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                box-sizing: border-box;
+                font-size: 16px;
+                outline: none;
+                transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            }
+
+                .form-group input:focus, .form-group select:focus {
+                    border-color: #48c6ef;
+                    box-shadow: 0 0 8px rgba(72, 198, 239, 0.5);
+                }
+
+            .form-group button {
+                background-color: #48c6ef;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                padding: 12px;
+                border-radius: 8px;
+                transition: background-color 0.3s ease, transform 0.3s ease;
+                width: 100%;
+            }
+
+                .form-group button:hover {
+                    background-color: #36a1e1;
+                    transform: translateY(-2px);
+                }
+    </style>
 </head>
 <body>
-
-     
-    <div class="card m-md-3  h-120 d-flex align-items-center justify-content-center">
-        <div class="card-body py-5 px-md-5  ">
-
-            <h1 style="text-align:center "> Registration Form</h1>
-            <br />
-            <form asp-action="RedirectToLogin" method="post" >
+    <div class="center">
+    <div class="card">
+        <div class="card-body">
+            <h1>Registration Form</h1>
+            <form asp-action="RedirectToLogin" method="post">
                 <div class="form-group">
                     <label for="username">User Name:</label>
                     <input type="text" id="username" name="username" required>
-                </div><br />
+                </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
                     <input type="email" id="email" name="email" required>
-                </div> <br />
+                </div>
                 <div class="form-group">
                     <label for="password">Password:</label>
                     <input type="password" id="password" name="password" required>
-                </div> <br />
+                </div>
                 <div class="form-group">
                     <label for="dob">Date of Birth:</label>
                     <input type="date" id="dob" name="dob" required>
-                </div> <br />
+                </div>
                 <div class="form-group">
                     <label>Genders:</label>
-
                     <select name="Gender" id="Gender">
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                         <option value="T">Transgender</option>
                         <option value="O">Others</option>
-
                     </select>
-                </div> <br />
+                </div>
                 <div class="form-group">
                     <label for="department">Department Name:</label>
-                    <select name="Department" id="Department Name">
-                        <option value="Department"> Enter the Department Name</option>
-                        <option value="Engineering"> Engineering</option>
-                        <option value="HR"> HR</option>
+                    <select name="Department" id="Department">
+                        <option value="">Enter the Department Name</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="HR">HR</option>
                         <option value="Sales">Sales</option>
-                        <option value="Operations">Opreations</option>
-
+                        <option value="Operations">Operations</option>
                     </select>
-                </div> <br />
+                </div>
                 <div class="form-group">
                     <label for="phone">Phone Numbers:</label>
                     <input type="text" name="phone" size="10" />
-                    <br> <br>
-                </div> <br />
-
-                <button type="submit" class="btn btn-primary" id="RegUser" onclick="RegUser_click()">Register</button>
-
-                 
+                </div>
+                <div class="form-group">
+                    <button type="submit" id="RegUser" onclick="RegUser_click()">Register</button>
+                </div>
             </form>
         </div>
-        
     </div>
-   <script>
-       function RegUser_click() {
-           alert("Registered Successfully");
-       }
-   </script>
-
-
-  
+    </div>
+    <script>
+        function RegUser_click() {
+            alert("Registered Successfully");
+        }
+    </script>
 </body>
 </html>
