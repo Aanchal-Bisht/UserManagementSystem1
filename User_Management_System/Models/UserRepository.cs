@@ -17,6 +17,8 @@ namespace User_Management_System.Models
             string? connectionString = configuration.GetConnectionString("getconn");
 
             con = new SqlConnection(connetionString);
+
+
 */
             con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800");
 
@@ -34,7 +36,7 @@ namespace User_Management_System.Models
             cmd.Parameters.AddWithValue("gen", user.Gender);
             cmd.Parameters.AddWithValue("contact", user.Phone);
             cmd.Parameters.AddWithValue("DeptId", user.DeptName);
-
+            cmd.Parameters.AddWithValue("RoleId",user.RoleId);
             con.Open();
             int k = cmd.ExecuteNonQuery();
             if (k != 0)
@@ -112,22 +114,33 @@ namespace User_Management_System.Models
             cmd.Parameters.AddWithValue("pass", pass);
             con.Open();
             SqlDataReader dataReader = cmd.ExecuteReader();
-                    dataReader.Read();
-          //  Console.WriteLine(dataReader["UserId"].ToString());
-            myUser1.UserId = Convert.ToInt32(dataReader["UserId"]);
-           // Console.WriteLine(myUser1.UserId);
-            //Console.WriteLine(dataReader["UserId"].ToString());
-            //Console.WriteLine(myUser1.UserId);
-            myUser1.UserName = dataReader["UserName"].ToString();
-            myUser1.Email = dataReader["Email"].ToString();
-            myUser1.DOB = dataReader["DOB"].ToString();
-            myUser1.Gender= dataReader["Gender"].ToString();
-            myUser1.Phone= dataReader["ContactNo"].ToString();
-            myUser1.DeptName = dataReader["DeptId"].ToString() ;
-            //TempData["username"] = dataReader["ussername"]
-            con.Close();
-            return myUser1;
-            
+
+            if (dataReader.Read())
+            {
+                //  Console.WriteLine(dataReader["UserId"].ToString());
+                myUser1.UserId = Convert.ToInt32(dataReader["UserId"]);
+
+                // Console.WriteLine(myUser1.UserId);
+                //Console.WriteLine(dataReader["UserId"].ToString());
+                //Console.WriteLine(myUser1.UserId);
+                myUser1.UserName = dataReader["UserName"].ToString();
+                myUser1.Email = dataReader["Email"].ToString();
+                myUser1.DOB = dataReader["DOB"].ToString();
+                myUser1.Gender = dataReader["Gender"].ToString();
+                myUser1.Phone = dataReader["ContactNo"].ToString();
+                myUser1.DeptName = dataReader["DeptId"].ToString();
+                myUser1.RoleId = dataReader["RoleId"].ToString();
+                Console.WriteLine(dataReader["RoleId"].ToString());
+                //TempData["username"] = dataReader["ussername"]
+                con.Close();
+                return myUser1;
+
+            }
+            else
+            {
+                con.Close();
+                return myUser1;
+            }
         }
     }
 }

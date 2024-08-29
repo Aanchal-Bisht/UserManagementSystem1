@@ -23,16 +23,16 @@ namespace User_Management_System.Controllers
         {
             _logger = logger;
             _configuration = configuration;
-            
+
         }
-        
+
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone ,string buttontype)
+        public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
         {
             myUser = new User();
             myUser.UserId = Convert.ToInt32(userId);
@@ -44,16 +44,16 @@ namespace User_Management_System.Controllers
             myUser.Phone = phone;
             Console.WriteLine(myUser.DeptName);
             //TempData["newuser"] = myUser;
-
+            int id = Convert.ToInt32(myUser.UserId);
             if (buttontype == "save")
             {
                 newUser.UpdateUser(myUser);
             }
             if (buttontype == "delete")
             {
-                newUser.DeleteUser(myUser.UserId);
+                newUser.DeleteUser(id);
             }
-           
+
             return View("Index");
         }
 
@@ -71,48 +71,60 @@ namespace User_Management_System.Controllers
 
         {
             DataTable dt = newUser.getUserList();
-            if (dt != null) {
-               ViewBag.DataTable=dt;
+            if (dt != null)
+            {
+                ViewBag.DataTable = dt;
             }
-            return View();  
+            return View();
         }
 
         [HttpPost]
         public IActionResult RedirectToHome(string userName, string pwd)
         {
+            User myu1 = new User();
             DataTable res = newUser.getUserDetails(userName, pwd);
-            if (res.Rows.Count > 0)
+            myu1 = newUser.DisplayUser(userName, pwd);
+            // Console.WriteLine(myu1.RoleId);
+            if (res.Rows.Count > 0 && string.IsNullOrEmpty(myu1.RoleId))
             {
                 TempData["user"] = userName;
-                User myu1 =newUser.DisplayUser(userName, pwd);
+                // User myu1 =newUser.DisplayUser(userName, pwd);
                 Console.WriteLine(myu1.UserName);
                 TempData["userName"] = myu1.UserName;
                 TempData["userId"] = myu1.UserId;
                 TempData["Email"] = myu1.Email;
-                TempData["Gender"]=myu1.Gender;
+                TempData["Gender"] = myu1.Gender;
                 DateTime dateObject = DateTime.Parse(myu1.DOB);
                 TempData["DOB"] = dateObject.Date;
-               // Console.WriteLine(TempData["DOB"]); 
+                // Console.WriteLine(TempData["DOB"]); 
                 TempData["Phone"] = myu1.Phone;
                 TempData["DeptName"] = myu1.DeptName;
-               // Console.WriteLine(TempData["userId"]);
+                TempData["UserRoleId"] = myu1.RoleId;
+                // Console.WriteLine(TempData["userId"]);
                 return RedirectToAction("Index");
             }
+            else if (res.Rows.Count > 0 && !string.IsNullOrEmpty(myu1.RoleId))
+            {
+                TempData["UserRoleId"] = myu1.RoleId;
+                return RedirectToAction("UserList");
+            }
+
             else
             {
                 ViewBag.Message = "Invalid user";
                 return View("Login");
             }
 
-        }  
+        }
+
         public IActionResult Register()
         {
             return View();
         }
 
-       
+
         [HttpPost]
-        public IActionResult RedirectToLogin(string username, string email,string password,DateOnly dob,string Gender, string Department,string phone)
+        public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
         {
             myUser = new User();
             myUser.UserName = username;
@@ -138,9 +150,9 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
-       
-        
-        
+
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
