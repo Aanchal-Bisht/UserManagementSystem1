@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h3 class="display-6" style="margin-left:22rem;">Sign Out</h3>
+<div class="card " style="width:50rem; background:linear-gradient(135deg, #6f86d6, #48c6ef);border-radius:20px;">
+    <div class="card-body py-5 px-md-5">
+        <form asp-action="Index" method="post">
+            <button type="submit" id="btnLogin" class="btn btn-primary" onclick="signout()">SIGN OUT</button>
+        </form>
+    </div>
+</div>
+<script>
+    function signout(){
+        alert("Signed Out Successfully");
+    }
+</script>
