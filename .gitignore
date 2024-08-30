@@ -2,11 +2,17 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/User_Management_System/FileContentIndex/3fdb71c1-18e8-4c12-85bc-9adce238ebae.vsidx
-/.vs/User_Management_System/FileContentIndex/a0501683-bbf6-4c2d-a4fd-587fa63c23cc.vsidx
-/.vs/User_Management_System/FileContentIndex/bf817797-4151-4eea-8f31-a63f7bdbf302.vsidx
+/.vs/User_Management_System/FileContentIndex
+/.vs/User_Management_System/v17/.suo
+/.vs/User_Management_System/v17/DocumentLayout.json
 /User_Management_System/bin/Debug/net8.0/User_Management_System.dll
 /User_Management_System/bin/Debug/net8.0/User_Management_System.exe
-/.vs/User_Management_System/v17/.suo
-/.vs/User_Management_System/FileContentIndex
-/.vs/UserManagementSystem1/v17
+/User_Management_System/bin/Debug/net8.0/User_Management_System.pdb
+/User_Management_System/obj/Debug/net8.0/ref/User_Management_System.dll
+/User_Management_System/obj/Debug/net8.0/refint/User_Management_System.dll
+/User_Management_System/obj/Debug/net8.0/User_Management_System.AssemblyInfoInputs.cache
+/User_Management_System/obj/Debug/net8.0/User_Management_System.dll
+/User_Management_System/obj/Debug/net8.0/User_Management_System.pdb
+/User_Management_System/obj/Debug/net8.0/User_Management_System.sourcelink.json
+/User_Management_System/obj/Debug/net8.0/apphost.exe
+/User_Management_System/obj/Debug/net8.0/User_Management_System.AssemblyInfo.cs

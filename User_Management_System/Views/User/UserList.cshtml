@@ -2,7 +2,16 @@
 
 @{
     DataTable dataTable = ViewBag.DataTable as DataTable;
+    
+
 }
+@{
+string userRoleId = string.Empty;
+    if (TempData["UserRoleId"] != null && TempData["UserRoleId"] != "")
+    {
+        userRoleId = Convert.ToString(TempData["UserRoleId"]);
+    }
+    }
 <!DOCTYPE html>
     <html>
     <head>
@@ -15,6 +24,8 @@
                 </span><br />Your Details Is Given Below :  
             </h1>
         </div>
+        @{
+            if(userRoleId != null){
     <table class="table" id="userTable">
         <thead class="thead-dark" id="tableHead">
             <tr>
@@ -25,6 +36,7 @@
                 <th scope="col">DOB</th>
                 <th scope="col">Contact</th>
                 <th scope="col">Department Name</th>
+                
             </tr>
         </thead>
         <tbody id="tableBody">
@@ -39,8 +51,9 @@
             }
         </tbody>
     </table>
-
-@*     <script>
+    }
+    }
+@*  <script>
      
             // Get the table body element in which you want to add row
             let table = document.getElementById("tableBody");
@@ -77,8 +90,8 @@
             // Append row to table body
             table.appendChild(row)
        
-    </script>
-         *@
+    </script> *@
+         
     
     </body>
     </html>

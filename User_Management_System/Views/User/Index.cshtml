@@ -10,6 +10,8 @@
     var userdept = TempData["DeptName"] as string;
     var success = TempData["Success"];
 }
+<html>
+    
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -42,44 +44,56 @@
 
 
 </script>
-<div class="text-center">
+<div class="text-center ">
     @{
         if (user == null)
         {
 
-                                                <h class="display-4">Welcome to </h>
-                                                <p><span class="h3 ">@ViewData["Title"]</span></p>
+                                                <h1 class="display-4 text-dark">Welcome To </h1>
+                                                <p><span class="h3 text-info">@ViewData["Title"]</span></p>
         }
         else
         {
-                                                <h class="display-4">Welcome </h>
-                                                <p><span class="h3 ">@user</span></p>
+                                                <h1 class="display-4 text-dark ">Welcome </h1>
+                                                <p><span class="h3 text-info">@user</span></p>
         }
         
     }
 
 </div>
-<div class="text-center">
-    <input type="text" name="search" value="" />
-    <button type="button" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-search"></span> Search
-    </button>
 
- </div>
 @{
     if (@userid != null)
     {
-   
-        <div class="text-center h-100 d-flex align-items-center justify-content-center">
-            <div class="card m-md-3 mx-auto" style="width:50rem; height:70rem;">
+       
+        <div class="text-center d-flex align-items-center justify-content-center ">
+                <div class="card m-md-3 mx-auto" style="width:50rem; height:70rem; font-family: 'Arial', sans-serif;
+               
+                background: linear-gradient(135deg, #6f86d6, #48c6ef);
+                padding: 10px;
+                border-radius: 15px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 100%;
+                max-width: 500px;">
                 <div class="card-body py-5 px-md-5">
 
                     <h1 style="text-align:center">Dashboard </h1>
                     <br />
-                    <form asp-action="Index" asp-controller="User" method="post" style="text-align:left justify">
+                    <form asp-action="Index" asp-controller="User" method="post" style="width:100%;
+                    padding: 12px;
+                    border: none;
+                    border-radius: 8px;
+                    box-sizing: border-box;
+                    font-size: 16px;
+                    outline: none; display: block;
+                    margin-bottom: 8px;
+                    font-weight: 600;
+                    color: #555;
+                    text-align:center
+                     ">
                         <div class="form-group">
                             <label for="userId">User Id:</label>
-                            <input type="text" id="userIdDisplay" name="userId" value=@userid readonly>
+                            <input type="text" id="userIdDisplay" name="userId" value=@userid readonly >
                         </div><br />
                         <div class="form-group">
                             <label for="username">User Name:</label>
@@ -120,6 +134,7 @@
             </div>
 
         </div>
+       
     }
 }
 
