@@ -49,25 +49,19 @@
         if (user == null)
         {
 
-                                                <h class="display-4">Welcome to </h>
-                                                <p><span class="h3 ">@ViewData["Title"]</span></p>
+                                                <h1 class="display-4 text-dark">Welcome To </h1>
+                                                <p><span class="h3 text-info">@ViewData["Title"]</span></p>
         }
         else
         {
-                                                <h class="display-4">Welcome </h>
-                                                <p><span class="h3 ">@user</span></p>
+                                                <h1 class="display-4 text-dark ">Welcome </h1>
+                                                <p><span class="h3 text-info">@user</span></p>
         }
         
     }
 
 </div>
-<div class="text-center">
-    <input type="text" name="search" value="" />
-    <button type="button" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-search"></span> Search
-    </button>
 
- </div>
 @{
     if (@userid != null)
     {

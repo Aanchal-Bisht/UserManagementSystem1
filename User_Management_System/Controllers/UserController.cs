@@ -67,6 +67,11 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+        public IActionResult UserSignout()
+        {
+            
+            return View();
+        }
         public IActionResult UserList()
 
         {
@@ -84,6 +89,7 @@ namespace User_Management_System.Controllers
             User myu1 = new User();
             DataTable res = newUser.getUserDetails(userName, pwd);
             myu1 = newUser.DisplayUser(userName, pwd);
+            
             // Console.WriteLine(myu1.RoleId);
             if (res.Rows.Count > 0 && string.IsNullOrEmpty(myu1.RoleId))
             {
@@ -100,17 +106,22 @@ namespace User_Management_System.Controllers
                 TempData["Phone"] = myu1.Phone;
                 TempData["DeptName"] = myu1.DeptName;
                 TempData["UserRoleId"] = myu1.RoleId;
+               
+                TempData["Check"] = true;
                 // Console.WriteLine(TempData["userId"]);
                 return RedirectToAction("Index");
             }
             else if (res.Rows.Count > 0 && !string.IsNullOrEmpty(myu1.RoleId))
             {
                 TempData["UserRoleId"] = myu1.RoleId;
+                
+                TempData["Check"] = true;
                 return RedirectToAction("UserList");
             }
 
             else
             {
+
                 ViewBag.Message = "Invalid user";
                 return View("Login");
             }

@@ -6,6 +6,9 @@
         userRoleId = Convert.ToString(TempData["UserRoleId"]);
     }
 }
+@{
+    var check = Convert.ToBoolean(TempData["Check"]);
+}
     <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,9 +46,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Register">Register Here</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
-                        </li>
+                        @if (check == false)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Login</a>
+                            </li>
+                        }
+                      @if(check== true)
+                       {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UserSignout">SignOut</a>
+                            </li>
+                       }
                         @if (string.IsNullOrEmpty(@userRoleId) == false)
                         {
                              <li class="nav-item">
