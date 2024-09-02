@@ -83,9 +83,25 @@ namespace User_Management_System.Controllers
             return View();
         }
 
+        private string GetUserDetailsFromAPI(string userName, string pwd)
+        {
+            //hit the api passing "userName, pwd"
+
+            //receive api response and deserialize it from json to class object
+
+            //return this class object
+
+            return "";
+        }
+
         [HttpPost]
         public IActionResult RedirectToHome(string userName, string pwd)
         {
+            //call the api method here
+            var yourClassObject = GetUserDetailsFromAPI(userName, pwd);
+
+            //prepare your model calss object using yourClassObject
+
             User myu1 = new User();
             DataTable res = newUser.getUserDetails(userName, pwd);
             myu1 = newUser.DisplayUser(userName, pwd);
