@@ -92,18 +92,18 @@ namespace User_Management_System.Models
             con.Close();
             return dataTable;
         }
-        public DataTable getUserList()
-        {
-            connection();
-            SqlCommand cmd = new SqlCommand("userList", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            con.Open();
-            SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-            DataTable dataTable = new DataTable();
-            adapter.Fill(dataTable);
-            con.Close();
-            return dataTable;
-        }
+        //public DataTable getUserList()
+        //{
+        //    connection();
+        //    SqlCommand cmd = new SqlCommand("userList", con);
+        //    cmd.CommandType = CommandType.StoredProcedure;
+        //    con.Open();
+        //    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+        //    DataTable dataTable = new DataTable();
+        //    adapter.Fill(dataTable);
+        //    con.Close();
+        //    return dataTable;
+        //}
         public User DisplayUser(string username,string pass)
         {
             User myUser1 = new User();

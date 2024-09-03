@@ -15,7 +15,7 @@ namespace UMSAPI.Controllers
             SqlCommand cmd = new SqlCommand("DelUser", con);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("userId", userId);
-            con.Open();
+            con.Open();            
            int k= cmd.ExecuteNonQuery();
             if (k > 0)
             {
@@ -29,6 +29,7 @@ namespace UMSAPI.Controllers
             }
             con.Close();
         }
+        
 
     }
 }

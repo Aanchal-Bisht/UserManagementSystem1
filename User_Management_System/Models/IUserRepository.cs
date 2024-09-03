@@ -9,7 +9,7 @@ namespace User_Management_System.Models
         void UpdateUser(User user);
         void DeleteUser(int userId);
         public DataTable getUserDetails(string uname, string pass);
-        public DataTable getUserList();
+      // public DataTable getUserList();
         public User DisplayUser(string username, string pass);
     }
 }
