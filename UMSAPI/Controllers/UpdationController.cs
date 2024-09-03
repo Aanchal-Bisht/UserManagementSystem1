@@ -1,0 +1,42 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
+
+namespace UMSAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UpdationController : ControllerBase
+    {
+        [HttpPatch ( Name= "PatchUserDetails")]
+        public int Patch(string UserId,string username, string email, string dob, string Gender, string Department, string phone)
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
+            SqlCommand cmd = new SqlCommand("updateUser", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("userId", UserId);
+            cmd.Parameters.AddWithValue("userName", username);
+            cmd.Parameters.AddWithValue("email", email);
+            cmd.Parameters.AddWithValue("dob", dob);
+            cmd.Parameters.AddWithValue("gender", Gender);
+            cmd.Parameters.AddWithValue("phone", phone);
+            cmd.Parameters.AddWithValue("dept", Department);
+            con.Open();
+            
+            int k = cmd.ExecuteNonQuery();
+            if (k != 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            con.Close();
+
+
+
+        }
+    }
+}

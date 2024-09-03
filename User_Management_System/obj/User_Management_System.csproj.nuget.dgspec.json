@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\User_Management_System\\User_Management_System.csproj": {}
+    "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\User_Management_System\\User_Management_System.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\UMSAPI.csproj": {
+    "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\UMSAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\UMSAPI.csproj",
+        "projectUniqueName": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\UMSAPI.csproj",
         "projectName": "UMSAPI",
-        "projectPath": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\UMSAPI.csproj",
-        "packagesPath": "C:\\Users\\ParthBajaj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\obj\\",
+        "projectPath": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\UMSAPI.csproj",
+        "packagesPath": "C:\\Users\\AanchalBisht\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ParthBajaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AanchalBisht\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -50,6 +50,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[5.2.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"
@@ -78,20 +86,20 @@
         }
       }
     },
-    "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\User_Management_System\\User_Management_System.csproj": {
+    "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\User_Management_System\\User_Management_System.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\User_Management_System\\User_Management_System.csproj",
+        "projectUniqueName": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\User_Management_System\\User_Management_System.csproj",
         "projectName": "User_Management_System",
-        "projectPath": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\User_Management_System\\User_Management_System.csproj",
-        "packagesPath": "C:\\Users\\ParthBajaj\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\User_Management_System\\obj\\",
+        "projectPath": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\User_Management_System\\User_Management_System.csproj",
+        "packagesPath": "C:\\Users\\AanchalBisht\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\User_Management_System\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ParthBajaj\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\AanchalBisht\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -107,8 +115,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\UMSAPI.csproj": {
-                "projectPath": "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\UMSAPI.csproj"
+              "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\UMSAPI.csproj": {
+                "projectPath": "C:\\Users\\AanchalBisht\\Desktop\\anchal-ui\\UserManagementSystem1-1\\UMSAPI\\UMSAPI.csproj"
               }
             }
           }
@@ -128,9 +136,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
-              "version": "[5.2.1, )"
+              "version": "[5.2.2, )"
             },
             "Microsoft.Extensions.Configuration": {
               "target": "Package",
