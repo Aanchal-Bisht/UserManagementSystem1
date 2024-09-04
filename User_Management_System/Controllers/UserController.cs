@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+  using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
@@ -8,6 +8,7 @@ using System.Numerics;
 using System.Reflection;
 using Microsoft.Extensions.Options;
 using static System.Net.WebRequestMethods;
+using Newtonsoft.Json;
 using System;
 
 namespace User_Management_System.Controllers
@@ -17,17 +18,21 @@ namespace User_Management_System.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IOptions<Custom> _custom;
+        private readonly IOptions<CustomConfig> _customConfig;
+
 
         public User myUser;
-        UserRepository newUser = new UserRepository();
+     //    UserRepository newUser = new UserRepository();
 
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<Custom> custom)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<Custom> custom, IOptions<CustomConfig> customConfig)
         {
             _logger = logger;
             _configuration = configuration;
             _custom = custom;
+            _customConfig = customConfig;
+
 
         }
 
@@ -55,6 +60,24 @@ namespace User_Management_System.Controllers
                 return null;
             }
         }
+        private string deleteUserApi(int userId, string url)
+        {
+
+            try
+            {
+                var client = new HttpClient();
+                var request = new HttpRequestMessage(HttpMethod.Delete, url);
+                var response = client.Send(request);
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+                var list = reader.ReadToEnd();
+                return list;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         [HttpPost]
         public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
         {
@@ -80,7 +103,10 @@ namespace User_Management_System.Controllers
 
             if (buttontype == "delete")
             {
-                newUser.DeleteUser(id);
+                string url=_customConfig.Value.DeleteUserApiUrl+"?userId="+userId;
+                var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
+                Console.WriteLine(deleteApiResponseObject);
+               // newUser.DeleteUser(id);
             }
 
             return View("Index");
@@ -101,68 +127,124 @@ namespace User_Management_System.Controllers
         }
         public IActionResult UserSignout()
         {
-            
+
             return View();
+        }
+        // api hit for getting user details for admin user list 
+        private string GetUserListfromApi(string url)
+        {
+            try
+            {
+                var client = new HttpClient();
+                var webRequest = new HttpRequestMessage(HttpMethod.Get, url);
+                var response = client.Send(webRequest);
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+                var list = reader.ReadToEnd();
+                return list;
+            }
+            catch 
+            {
+                return null;
+            }
         }
         public IActionResult UserList()
 
         {
-            DataTable dt = newUser.getUserList();
-            if (dt != null)
+            //calling api hitting method
+            string url = _customConfig.Value.UserListApiUrl;
+            var yourClassObject= GetUserListfromApi(url);
+            //converting json string to datatable object
+            var dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
+            
+            //Console.WriteLine(dataTable);
+            //DataTable dt = newUser.getUserList();
+            if (dataTable != null)
             {
-                ViewBag.DataTable = dt;
+                ViewBag.DataTable = dataTable;
             }
             return View();
         }
-
-        private string GetUserDetailsFromAPI(string userName, string pwd)
+// api hit for getting user details for login and dashboard 
+        private string GetUserDetailsFromAPI(string userName, string pwd, string url)
         {
             //hit the api passing "userName, pwd"
 
             //receive api response and deserialize it from json to class object
 
             //return this class object
+            try
+            {
+                var client = new HttpClient();
 
-            return "";
+                var webRequest = new HttpRequestMessage(HttpMethod.Get, url);
+
+                var response = client.Send(webRequest);
+
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+
+                return reader.ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
+
+
         }
 
         [HttpPost]
         public IActionResult RedirectToHome(string userName, string pwd)
         {
+            string url = _customConfig.Value.UserDetailsApiUrl + "?userName=" + userName + "&Pass=" + pwd;
             //call the api method here
-            var yourClassObject = GetUserDetailsFromAPI(userName, pwd);
+            var yourClassObject = GetUserDetailsFromAPI(userName, pwd, url);
+           // Console.WriteLine(yourClassObject.ToString());
+            DataTable dt = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
+            //User myu1 = new User();
+            //DataTable res = newUser.getUserDetails(userName, pwd);
+            //myu1 = newUser.DisplayUser(userName, pwd);
+            User student = new User();
+            //  List<User> studentList = new List<Student>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+              
+                student.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
+                student.UserName = dt.Rows[i]["UserName"].ToString();
+                student.Password = dt.Rows[i]["Pwd"].ToString();
+                student.Email = dt.Rows[i]["Email"].ToString();
+                student.Phone = dt.Rows[i]["ContactNo"].ToString();
+                student.Gender = dt.Rows[i]["Gender"].ToString();
+                student.DOB = dt.Rows[i]["DOB"].ToString();
+                student.DeptName = dt.Rows[i]["DeptId"].ToString();
+                student.RoleId = dt.Rows[i]["RoleId"].ToString();
+                // studentList.Add(student);
+            }
 
-            //prepare your model calss object using yourClassObject
-
-            User myu1 = new User();
-            DataTable res = newUser.getUserDetails(userName, pwd);
-            myu1 = newUser.DisplayUser(userName, pwd);
-            
             // Console.WriteLine(myu1.RoleId);
-            if (res.Rows.Count > 0 && string.IsNullOrEmpty(myu1.RoleId))
+            if (dt.Rows.Count > 0 && string.IsNullOrEmpty(student.RoleId))
             {
                 TempData["user"] = userName;
                 // User myu1 =newUser.DisplayUser(userName, pwd);
-                Console.WriteLine(myu1.UserName);
-                TempData["userName"] = myu1.UserName;
-                TempData["userId"] = myu1.UserId;
-                TempData["Email"] = myu1.Email;
-                TempData["Gender"] = myu1.Gender;
-                DateTime dateObject = DateTime.Parse(myu1.DOB);
+              //  Console.WriteLine(myu1.UserName);
+                TempData["userName"] = student.UserName;
+                TempData["userId"] = student.UserId;
+                TempData["Email"] = student.Email;
+                TempData["Gender"] = student.Gender;
+                DateTime dateObject = DateTime.Parse(student.DOB);
                 TempData["DOB"] = dateObject.Date;
                 // Console.WriteLine(TempData["DOB"]); 
-                TempData["Phone"] = myu1.Phone;
-                TempData["DeptName"] = myu1.DeptName;
-                TempData["UserRoleId"] = myu1.RoleId;
-               
+                TempData["Phone"] = student.Phone;
+                TempData["DeptName"] = student.DeptName;
+                TempData["UserRoleId"] = student.RoleId;
+
                 TempData["Check"] = true;
                 // Console.WriteLine(TempData["userId"]);
                 return RedirectToAction("Index");
             }
-            else if (res.Rows.Count > 0 && !string.IsNullOrEmpty(myu1.RoleId))
+            else if (dt.Rows.Count > 0 && !string.IsNullOrEmpty(student.RoleId))
             {
-                TempData["UserRoleId"] = myu1.RoleId;
-                
+                TempData["UserRoleId"] = student.RoleId;
+
                 TempData["Check"] = true;
                 return RedirectToAction("UserList");
             }
