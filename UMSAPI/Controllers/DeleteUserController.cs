@@ -11,23 +11,23 @@ namespace UMSAPI.Controllers
         [HttpDelete (Name="DeleteUser")]
         public int Delete(int userId)
         {
-            SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
-            SqlCommand cmd = new SqlCommand("DelUser", con);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("userId", userId);
-            con.Open();            
-           int k= cmd.ExecuteNonQuery();
-            if (k > 0)
+            try
             {
+                SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
+                SqlCommand cmd = new SqlCommand("DelUser", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("userId", userId);
+                con.Open();
+                int k = cmd.ExecuteNonQuery();
                 return 1;
-            
+                con.Close();
             }
-            else
+            catch (Exception e)
             {
-                return 0;
-                
+                return -1;  
             }
-            con.Close();
+           
+           
         }
         
 

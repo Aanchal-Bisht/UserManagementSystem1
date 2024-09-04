@@ -21,7 +21,7 @@ namespace User_Management_System.Controllers
         private IOptions<CustomConfig> _customConfig;
 
         public User myUser;
-        UserRepository newUser = new UserRepository();
+         UserRepository newUser = new UserRepository();
 
 
 
@@ -37,6 +37,7 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+        // method to hit the delete user Api 
         private string deleteUserApi(int userId,string url)
         {
 
@@ -75,10 +76,10 @@ namespace User_Management_System.Controllers
             }
             if (buttontype == "delete")
             {
-                string url=_customConfig.Value.DeleteUserApiUrl;
+                string url=_customConfig.Value.DeleteUserApiUrl+"?userId="+userId;
                 var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
-                Console.WriteLine(deleteApiResponseObject.ToString());
-                newUser.DeleteUser(id);
+                Console.WriteLine(deleteApiResponseObject);
+               // newUser.DeleteUser(id);
             }
 
             return View("Index");
@@ -168,37 +169,51 @@ namespace User_Management_System.Controllers
             //call the api method here
             var yourClassObject = GetUserDetailsFromAPI(userName, pwd, url);
            // Console.WriteLine(yourClassObject.ToString());
-            DataTable dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-            //prepare your model calss object using yourClassObject
-            User myu1 = JsonConvert.DeserializeObject<User>(yourClassObject);
+            DataTable dt = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
             //User myu1 = new User();
-           // DataTable res = newUser.getUserDetails(userName, pwd);
-            myu1 = newUser.DisplayUser(userName, pwd);
+            //DataTable res = newUser.getUserDetails(userName, pwd);
+            //myu1 = newUser.DisplayUser(userName, pwd);
+            User student = new User();
+            //  List<User> studentList = new List<Student>();
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+              
+                student.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
+                student.UserName = dt.Rows[i]["UserName"].ToString();
+                student.Password = dt.Rows[i]["Pwd"].ToString();
+                student.Email = dt.Rows[i]["Email"].ToString();
+                student.Phone = dt.Rows[i]["ContactNo"].ToString();
+                student.Gender = dt.Rows[i]["Gender"].ToString();
+                student.DOB = dt.Rows[i]["DOB"].ToString();
+                student.DeptName = dt.Rows[i]["DeptId"].ToString();
+                student.RoleId = dt.Rows[i]["RoleId"].ToString();
+                // studentList.Add(student);
+            }
 
             // Console.WriteLine(myu1.RoleId);
-            if (dataTable.Rows.Count > 0 && string.IsNullOrEmpty(myu1.RoleId))
+            if (dt.Rows.Count > 0 && string.IsNullOrEmpty(student.RoleId))
             {
                 TempData["user"] = userName;
                 // User myu1 =newUser.DisplayUser(userName, pwd);
-                Console.WriteLine(myu1.UserName);
-                TempData["userName"] = myu1.UserName;
-                TempData["userId"] = myu1.UserId;
-                TempData["Email"] = myu1.Email;
-                TempData["Gender"] = myu1.Gender;
-                DateTime dateObject = DateTime.Parse(myu1.DOB);
+              //  Console.WriteLine(myu1.UserName);
+                TempData["userName"] = student.UserName;
+                TempData["userId"] = student.UserId;
+                TempData["Email"] = student.Email;
+                TempData["Gender"] = student.Gender;
+                DateTime dateObject = DateTime.Parse(student.DOB);
                 TempData["DOB"] = dateObject.Date;
                 // Console.WriteLine(TempData["DOB"]); 
-                TempData["Phone"] = myu1.Phone;
-                TempData["DeptName"] = myu1.DeptName;
-                TempData["UserRoleId"] = myu1.RoleId;
+                TempData["Phone"] = student.Phone;
+                TempData["DeptName"] = student.DeptName;
+                TempData["UserRoleId"] = student.RoleId;
 
                 TempData["Check"] = true;
                 // Console.WriteLine(TempData["userId"]);
                 return RedirectToAction("Index");
             }
-            else if (dataTable.Rows.Count > 0 && !string.IsNullOrEmpty(myu1.RoleId))
+            else if (dt.Rows.Count > 0 && !string.IsNullOrEmpty(student.RoleId))
             {
-                TempData["UserRoleId"] = myu1.RoleId;
+                TempData["UserRoleId"] = student.RoleId;
 
                 TempData["Check"] = true;
                 return RedirectToAction("UserList");
