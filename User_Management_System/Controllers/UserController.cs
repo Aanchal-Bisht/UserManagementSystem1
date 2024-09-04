@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 using User_Management_System.Models;
 using System.Numerics;
 using System.Reflection;
+using Microsoft.Extensions.Options;
+using static System.Net.WebRequestMethods;
+using System;
 
 namespace User_Management_System.Controllers
 {
@@ -13,16 +16,18 @@ namespace User_Management_System.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IOptions<Custom> _custom;
 
         public User myUser;
         UserRepository newUser = new UserRepository();
 
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<Custom> custom)
         {
             _logger = logger;
             _configuration = configuration;
+            _custom = custom;
 
         }
 
@@ -30,7 +35,26 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+      
+        public string PatchUserApi(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone, string url)
+        {
+            try
+            {
+                var client = new HttpClient();
 
+                var webRequest = new HttpRequestMessage(HttpMethod.Patch, url);
+
+                var response = client.Send(webRequest);
+
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+
+                return reader.ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
+        }
         [HttpPost]
         public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
         {
@@ -45,10 +69,15 @@ namespace User_Management_System.Controllers
             Console.WriteLine(myUser.DeptName);
             //TempData["newuser"] = myUser;
             int id = Convert.ToInt32(myUser.UserId);
+
             if (buttontype == "save")
             {
-                newUser.UpdateUser(myUser);
+                string url = _custom.Value.Patch_API_URL + "?userId=" +userId + "&username=" + username + "&email=" + email + "&gender=" + gender +"&dob=" + dob + "&Department=" + department + "&phone=" + phone; 
+                var PatchApiResponseObject = PatchUserApi(userId, username, email, dob, gender,department, phone, url);
+                Console.WriteLine(PatchApiResponseObject);
+                
             }
+
             if (buttontype == "delete")
             {
                 newUser.DeleteUser(id);
@@ -62,6 +91,9 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+        
+            
+
 
         public IActionResult Login()
         {
@@ -148,11 +180,34 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+        public string PostApiResponse(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone,string url)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var webRequest = new HttpRequestMessage(HttpMethod.Post, url);
+
+                var response = client.Send(webRequest);
+
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+
+                return reader.ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
 
         [HttpPost]
         public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
         {
+            string url = _custom.Value.Post_API_URL + "?username=" + username + "&email=" + email + "&password=" + password + "&gender=" + Gender + "&dob=" +dob + "&Department=" + Department + "&phone=" + phone;
+
+            var classobject = PostApiResponse(username,  email,  password, dob,  Gender,Department,  phone,url);
+
             myUser = new User();
             myUser.UserName = username;
             myUser.Email = email;
@@ -163,7 +218,7 @@ namespace User_Management_System.Controllers
             myUser.Phone = phone;
 
             //TempData["newuser"] = myUser;
-            newUser.AddUser(myUser);
+            //newUser.AddUser(myUser);
             return RedirectToAction("Login");
         }
 

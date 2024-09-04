@@ -24,7 +24,7 @@ namespace User_Management_System.Models
 
         }
 
-        public void AddUser(User user)
+       /* public void AddUser(User user)
         {
             connection();
             SqlCommand cmd = new SqlCommand("InsertUser", con);
@@ -36,7 +36,7 @@ namespace User_Management_System.Models
             cmd.Parameters.AddWithValue("gen", user.Gender);
             cmd.Parameters.AddWithValue("contact", user.Phone);
             cmd.Parameters.AddWithValue("DeptId", user.DeptName);
-            cmd.Parameters.AddWithValue("RoleId",user.RoleId);
+            cmd.Parameters.AddWithValue("RoleId", user.RoleId);
             con.Open();
             int k = cmd.ExecuteNonQuery();
             if (k != 0)
@@ -45,9 +45,9 @@ namespace User_Management_System.Models
             }
             con.Close();
             return;
-        }
+        }*/
 
-        public void UpdateUser(User myUser)
+        /*public void UpdateUser(User myUser)
         {
             connection();
             SqlCommand cmd = new SqlCommand("updateUser",con);
@@ -65,7 +65,7 @@ namespace User_Management_System.Models
             return;
 
 
-        }
+        }*/
         public void DeleteUser(int userId) {
             connection();
             SqlCommand cmd = new SqlCommand("DelUser", con);
