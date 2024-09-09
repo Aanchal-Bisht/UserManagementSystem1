@@ -38,6 +38,12 @@ namespace User_Management_System.Controllers
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Get request received.");
+            _logger.LogInformation("Log Message from Information Method");
+            _logger.LogInformation("Log Messgae from Warning method");
+            _logger.LogInformation("Log Messgae from Error method.");
+            _logger.LogInformation("Log Messgae from Critical method");
+
             return View();
         }
       
@@ -259,7 +265,9 @@ namespace User_Management_System.Controllers
         }
 
         public IActionResult Register()
+
         {
+            _logger.LogInformation("Register Method Called");
             return View();
         }
         public string PostApiResponse(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone,string url)

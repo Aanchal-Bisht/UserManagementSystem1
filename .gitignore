@@ -59,3 +59,5 @@
 /UMSAPI/Controllers/WeatherForecastController.cs
 /User_Management_System/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
 /UMSAPI/WeatherForecast.cs
+/User_Management_System/obj/Debug/net8.0/staticwebassets.development.json
+/User_Management_System/obj/User_Management_System.csproj.nuget.g.targets
