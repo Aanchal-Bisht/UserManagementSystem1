@@ -88,6 +88,16 @@
                 width: 100%;
             }
 
+                .form-group button:disabled {
+                    background-color: #ccc;
+                    cursor: not-allowed;
+                }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
                 .form-group button:hover {
                     background-color: #36a1e1;
                     transform: translateY(-2px);
@@ -99,7 +109,7 @@
     <div class="card">
         <div class="card-body">
             <h1>Registration Form</h1>
-            <form asp-action="RedirectToLogin" method="post">
+            <form asp-action="RedirectToLogin" id="Registrationform" method="post">
                 <div class="form-group">
                     <label for="username">User Name:</label>
                     <input type="text" id="username" name="username" required>
@@ -140,16 +150,39 @@
                     <input type="text" name="phone" size="10" />
                 </div>
                 <div class="form-group">
-                    <button type="submit" id="RegUser" onclick="RegUser_click()">Register</button>
+                    <button type="submit" id="RegUser" disabled >Register</button>
                 </div>
             </form>
         </div>
     </div>
     </div>
+
+    <div class="message" id="message"></div>
+
     <script>
-        function RegUser_click() {
-            alert("Registered Successfully");
+        const inputs = document.querySelectorAll('#Registrationform input');
+        const registerButton = document.getElementById('RegUser');
+        const messageDiv = document.getElementById('message');
+
+        function checkInputs() {
+            const allFilled = Array.from(inputs).every(input => input.value.trim() !== '');
+            registerButton.disabled = !allFilled;
         }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', checkInputs);
+        });
+
+        document.getElementById('RegUser').addEventListener('submit', function (event) {
+            event.preventDefault();
+            messageDiv.textContent = 'Form submitted successfully!';
+
+            
+        });
+
+       
+        checkInputs();
     </script>
+    
 </body>
 </html>
