@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿/*using Microsoft.AspNetCore.Mvc;
 using System.Data;
 using System.Data.SqlClient;
 //using System.Configuration;
@@ -12,19 +12,19 @@ namespace User_Management_System.Models
 
         private void connection()
         {
-            /*string c = Directory.GetCurrentDirectory();
+            *//*string c = Directory.GetCurrentDirectory();
             IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(c).AddJsonFile("appsettings.json").Build();
             string? connectionString = configuration.GetConnectionString("getconn");
 
             con = new SqlConnection(connetionString);
 
 
-*/
+*//*
             con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800");
 
         }
 
-        public void AddUser(User user)
+       *//* public void AddUser(User user)
         {
             connection();
             SqlCommand cmd = new SqlCommand("InsertUser", con);
@@ -45,9 +45,9 @@ namespace User_Management_System.Models
             }
             con.Close();
             return;
-        }
+        }*/
 
-        public void UpdateUser(User myUser)
+        /*public void UpdateUser(User myUser)
         {
             connection();
             SqlCommand cmd = new SqlCommand("updateUser", con);
@@ -68,6 +68,11 @@ namespace User_Management_System.Models
         }
        /* public void DeleteUser(int userId)
         {
+<<<<<<< HEAD
+=======
+        }*//*
+        public void DeleteUser(int userId) {
+>>>>>>> feature/aanchal-new-changes
             connection();
             SqlCommand cmd = new SqlCommand("DelUser", con);
             cmd.CommandType = CommandType.StoredProcedure;
@@ -77,8 +82,13 @@ namespace User_Management_System.Models
             con.Close();
 
             return;
+<<<<<<< HEAD
         }*/
         /* public DataTable getUserDetails(string uname, string pass)
+=======
+        }
+        *//* public DataTable getUserDetails(string uname, string pass)
+>>>>>>> feature/aanchal-new-changes
          {
              connection();
              SqlCommand cmd = new SqlCommand("userDetails",con);
@@ -92,7 +102,11 @@ namespace User_Management_System.Models
              adapter.Fill(dataTable);
              con.Close();
              return dataTable;
+<<<<<<< HEAD
          }*/
+=======
+         }*//*
+>>>>>>> feature/aanchal-new-changes
         //public DataTable getUserList()
         //{
         //    connection();
@@ -105,7 +119,11 @@ namespace User_Management_System.Models
         //    con.Close();
         //    return dataTable;
         //}
+<<<<<<< HEAD
         /* public User DisplayUser(string username, string pass)
+=======
+        *//* public User DisplayUser(string username, string pass)
+>>>>>>> feature/aanchal-new-changes
          {
              User myUser1 = new User();
              SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800");
@@ -142,6 +160,11 @@ namespace User_Management_System.Models
                  con.Close();
                  return myUser1;
              }
+<<<<<<< HEAD
          }*/
+=======
+         }*//*
+>>>>>>> feature/aanchal-new-changes
     }
 }
+*/

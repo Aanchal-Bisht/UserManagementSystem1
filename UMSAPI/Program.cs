@@ -1,4 +1,13 @@
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.File("logs/log.txt", rollingInterval: RollingInterval.Minute)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 
 // Add services to the container.
 

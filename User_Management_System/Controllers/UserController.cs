@@ -7,38 +7,66 @@ using User_Management_System.Models;
 using System.Numerics;
 using System.Reflection;
 using Microsoft.Extensions.Options;
-using System;
-using System.Net;
-using System.Net.Http;
-using System.Text;
+using static System.Net.WebRequestMethods;
 using Newtonsoft.Json;
+using System;
+
 namespace User_Management_System.Controllers
 {
     public class UserController : Controller
     {
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
-        private IOptions<CustomConfig> _customConfig;
+        private readonly IOptions<Custom> _custom;
+        private readonly IOptions<CustomConfig> _customConfig;
+
 
         public User myUser;
-         UserRepository newUser = new UserRepository();
+     //    UserRepository newUser = new UserRepository();
 
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<Custom> custom, IOptions<CustomConfig> customConfig)
         {
             _logger = logger;
             _configuration = configuration;
+            _custom = custom;
             _customConfig = customConfig;
+
 
         }
 
         public IActionResult Index()
         {
+            _logger.LogInformation("Get request received.");
+            _logger.LogInformation("Log Message from Information Method");
+            _logger.LogInformation("Log Messgae from Warning method");
+            _logger.LogInformation("Log Messgae from Error method.");
+            _logger.LogInformation("Log Messgae from Critical method");
+
             return View();
         }
-        // method to hit the delete user Api 
-        private string deleteUserApi(int userId,string url)
+      
+        public string PatchUserApi(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone, string url)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var webRequest = new HttpRequestMessage(HttpMethod.Patch, url);
+
+                var response = client.Send(webRequest);
+
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+
+                return reader.ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private string deleteUserApi(int userId, string url)
         {
 
             try
@@ -70,10 +98,15 @@ namespace User_Management_System.Controllers
             Console.WriteLine(myUser.DeptName);
             //TempData["newuser"] = myUser;
             int id = Convert.ToInt32(myUser.UserId);
+
             if (buttontype == "save")
             {
-                newUser.UpdateUser(myUser);
+                string url = _custom.Value.Patch_API_URL + "?userId=" +userId + "&username=" + username + "&email=" + email + "&gender=" + gender +"&dob=" + dob + "&Department=" + department + "&phone=" + phone; 
+                var PatchApiResponseObject = PatchUserApi(userId, username, email, dob, gender,department, phone, url);
+                Console.WriteLine(PatchApiResponseObject);
+                
             }
+
             if (buttontype == "delete")
             {
                 string url=_customConfig.Value.DeleteUserApiUrl+"?userId="+userId;
@@ -90,6 +123,9 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
+        
+            
+
 
         public IActionResult Login()
         {
@@ -229,14 +265,39 @@ namespace User_Management_System.Controllers
         }
 
         public IActionResult Register()
+
         {
+            _logger.LogInformation("Register Method Called");
             return View();
+        }
+        public string PostApiResponse(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone,string url)
+        {
+            try
+            {
+                var client = new HttpClient();
+
+                var webRequest = new HttpRequestMessage(HttpMethod.Post, url);
+
+                var response = client.Send(webRequest);
+
+                using var reader = new StreamReader(response.Content.ReadAsStream());
+
+                return reader.ReadToEnd();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         [HttpPost]
         public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
         {
+            string url = _custom.Value.Post_API_URL + "?username=" + username + "&email=" + email + "&password=" + password + "&gender=" + Gender + "&dob=" +dob + "&Department=" + Department + "&phone=" + phone;
+
+            var classobject = PostApiResponse(username,  email,  password, dob,  Gender,Department,  phone,url);
+
             myUser = new User();
             myUser.UserName = username;
             myUser.Email = email;
@@ -247,7 +308,7 @@ namespace User_Management_System.Controllers
             myUser.Phone = phone;
 
             //TempData["newuser"] = myUser;
-            newUser.AddUser(myUser);
+            //newUser.AddUser(myUser);
             return RedirectToAction("Login");
         }
 
