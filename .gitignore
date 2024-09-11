@@ -66,3 +66,5 @@
 /User_Management_System/obj/project.assets.json
 /User_Management_System/obj/project.nuget.cache
 /User_Management_System/obj/User_Management_System.csproj.nuget.dgspec.json
+/User_Management_System/obj/Debug/net8.0/project.razor.vs.bin
+/.gitignore
