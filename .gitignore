@@ -61,3 +61,15 @@
 /UMSAPI/WeatherForecast.cs
 /User_Management_System/obj/Debug/net8.0/staticwebassets.development.json
 /User_Management_System/obj/User_Management_System.csproj.nuget.g.targets
+/.vs/User_Management_System/config/applicationhost.config
+/.vs/User_Management_System/config/applicationhost.config
+/User_Management_System/obj/project.assets.json
+/User_Management_System/obj/project.nuget.cache
+/User_Management_System/obj/User_Management_System.csproj.nuget.dgspec.json
+/User_Management_System/obj/Debug/net8.0/project.razor.vs.bin
+/.gitignore
+/User_Management_System/obj/Release/net8.0/User_Management_System.AssemblyInfo.cs
+/User_Management_System/obj/Release/net8.0/User_Management_System.AssemblyInfoInputs.cache
+/User_Management_System/obj/Release/net8.0/User_Management_System.assets.cache
+/User_Management_System/obj/Release/net8.0/User_Management_System.csproj.AssemblyReference.cache
+/User_Management_System/obj/Release/net8.0/User_Management_System.GeneratedMSBuildEditorConfig.editorconfig

@@ -1,0 +1,135 @@
+
+Log Entry : 11:52:53 10 September 2024
+  :
+  :User found: userName=simi
+-------------------------------
+
+Log Entry : 14:47:20 10 September 2024
+  :
+  :User found: userName=simi
+-------------------------------
+
+Log Entry : 14:51:11 10 September 2024
+  :
+  :User found: userName=ghghhg
+-------------------------------
+
+Log Entry : 14:54:37 10 September 2024
+  :
+  :User found: userName=fghgh
+-------------------------------
+
+Log Entry : 15:08:40 10 September 2024
+  :
+  :User found: userName=bcvbcvb
+-------------------------------
+
+Log Entry : 15:15:28 10 September 2024
+  :
+  :User found: userName=sassafd
+-------------------------------
+
+Log Entry : 15:17:27 10 September 2024
+  :
+  :User found: userName=simi
+-------------------------------
+
+Log Entry : 15:36:08 10 September 2024
+  :
+  :UMSAPI.Controllers.GetUserDetailsController.Get: Exception => Microsoft.Data.SqlClient.SqlException (0x80131904): A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)
+ ---> System.ComponentModel.Win32Exception (53): The network path was not found.
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, TimeoutTimer timeout, SqlConnectionString connectionOptions, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, TimeoutTimer timeout, Boolean withFailover)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString connectionOptions, SqlCredential credential, TimeoutTimer timeout)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(TimeoutTimer timeout, SqlConnectionString connectionOptions, SqlCredential credential, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance)
+   at Microsoft.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, SqlCredential credential, Object providerInfo, String newPassword, SecureString newSecurePassword, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling, String accessToken, DbConnectionPool pool, Func`3 accessTokenCallback)
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry, SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open()
+   at UMSAPI.Controllers.GetUserDetailsController.Get(String userName, String Pass) in C:\Users\ParthBajaj\source\repos\UserManagementSystem1\UMSAPI\Controllers\GetUserDetailsController.cs:line 31
+ClientConnectionId:00000000-0000-0000-0000-000000000000
+Error Number:53,State:0,Class:20
+-------------------------------
+
+Log Entry : 16:04:32 10 September 2024
+  :
+  :User found: userName=sdfsd
+-------------------------------
+
+Log Entry : 16:07:18 10 September 2024
+  :
+  :User not found: userName=fggggh
+-------------------------------
+
+Log Entry : 16:11:13 10 September 2024
+  :
+  :User found: userName=simi
+-------------------------------
+
+Log Entry : 16:15:18 10 September 2024
+  :
+  :User not found: userName=gfffff
+-------------------------------
+
+Log Entry : 16:17:04 10 September 2024
+  :
+  :User not found: userName=ghjgf
+-------------------------------
+
+Log Entry : 16:19:26 10 September 2024
+  :
+  :User not found: userName=hfgjgh
+-------------------------------
+
+Log Entry : 16:29:04 10 September 2024
+  :
+  :User not found: userName=ddghg
+-------------------------------
+
+Log Entry : 10:51:36 11 September 2024
+  :
+  :User not found: userName=simi
+-------------------------------
+
+Log Entry : 13:09:56 11 September 2024
+  :
+  :User not found: userName=gfgfg
+-------------------------------
+
+Log Entry : 13:12:07 11 September 2024
+  :
+  :User not found: userName=wwqeqw
+-------------------------------
+11 September 2024 15:01:10
+  :User found: userName=simi
+11 September 2024 15:01:35
+  :User found: userName=simi
+2024-04-11 15:04:25 User found: userName=simi
+2024-29-11 15:29:46 User found: userName=simi
+2024-36-11 15:36:34 User found: userName=simi
+2024-40-11 15:40:40 User found: userName=simi
+2024-44-11 15:44:35 User found: userName=simi
+2024-00-11 16:00:06 User found: userName=simi
+2024-01-11 16:01:26 User found: userName=simi
+2024-02-11 16:02:52 User found: userName=simi
+2024-07-11 16:07:27 User found: userName=simi
+2024-09-11 16:09:20 User found: userName=simi
+2024-15-11 16:15:26 User found: userName=simi
+2024-17-11 16:17:28 User found: userName=simi
+2024-20-11 16:20:33 User found: userName=simi
+2024-22-11 16:22:07 User found: userName=simi
+2024-22-11 16:22:46 User found: userName=simi
+2024-23-11 16:23:29 User found: userName=simi
+2024-24-11 16:24:10 User found: userName=simi
+2024-25-11 16:25:44 User found: userName=simi
