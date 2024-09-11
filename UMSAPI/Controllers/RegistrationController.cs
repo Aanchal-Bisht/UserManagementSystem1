@@ -4,17 +4,31 @@ using System.Data;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System;
+using System.Reflection.Metadata;
+using Microsoft.Extensions.Options;
 
 namespace UMSAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegistrationController : ControllerBase
-    {
-        [HttpPost(Name = "PostUserDetails")]
 
+    public class RegistrationController : ControllerBase { 
+
+        private IOptions<RegLogfileConfig> _logConfig;
+    public RegistrationController(IOptions<RegLogfileConfig> logConfig)
+    {
+        _logConfig = logConfig;
+    }
+
+
+    
+        [HttpPost(Name = "PostUserDetails")]
+        
+       
         public int Registeration(string username, string email, string password, string dob, string Gender, string Department, string phone)
         {
+         string RegLogfilePath = _logConfig.Value.RegLogFilePath;
+
             try { 
 
             SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
@@ -27,9 +41,10 @@ namespace UMSAPI.Controllers
             cmd.Parameters.AddWithValue("gen", Gender);
             cmd.Parameters.AddWithValue("contact", phone);
             cmd.Parameters.AddWithValue("DeptId", Department);
-            //   cmd.Parameters.AddWithValue("RoleId", RoleId);
+                //   cmd.Parameters.AddWithValue("RoleId", RoleId);
             con.Open();
-            int k = cmd.ExecuteNonQuery();
+                RegLog.LogWrite("User Sucsessfully Registered" + username, RegLogfilePath);
+                int k = cmd.ExecuteNonQuery();
                 return 1;
                 con.Close();
 
