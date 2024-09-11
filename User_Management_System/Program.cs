@@ -1,3 +1,4 @@
+﻿using Serilog;
 using User_Management_System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,7 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<CustomConfig>(builder.Configuration.GetSection("CustomConfig"));
+builder.Services.Configure<Custom>(builder.Configuration.GetSection("Custom"));
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.File("logs/log.txt",rollingInterval:RollingInterval.Minute)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -28,3 +39,4 @@ app.MapControllerRoute(
 
 
 app.Run();
+
