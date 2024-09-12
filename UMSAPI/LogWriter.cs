@@ -29,7 +29,24 @@ namespace UMSAPI
                 }
             }
         }
-
+        public static void DeleteLogWrite(string logMessage, string path)
+        {
+            m_exePath = path;
+            if (string.IsNullOrEmpty(m_exePath) == false)
+            {
+                if (!File.Exists(m_exePath + "\\" + "logdel.txt"))
+                    File.Create(m_exePath + "\\" + "logdel.txt");
+                try
+                {
+                    using (StreamWriter w = File.AppendText(m_exePath + "\\" + "logdel.txt"))
+                        AppendLog(logMessage, w);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
         private static void AppendLog(string logMessage, TextWriter txtWriter)
         {
             try
