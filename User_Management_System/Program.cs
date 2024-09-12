@@ -8,13 +8,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<CustomConfig>(builder.Configuration.GetSection("CustomConfig"));
 builder.Services.Configure<Custom>(builder.Configuration.GetSection("Custom"));
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .WriteTo.File("logs/log.txt",rollingInterval:RollingInterval.Minute)
-    .CreateLogger();
-
-builder.Host.UseSerilog();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

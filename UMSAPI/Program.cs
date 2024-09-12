@@ -9,6 +9,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.Configure<LogFileConfig>(builder.Configuration.GetSection("LogFileConfig"));
+
+builder.Services.Configure<RegLogfileConfig>(builder.Configuration.GetSection("RegLogfileConfig"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
