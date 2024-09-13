@@ -22,6 +22,7 @@ namespace User_Management_System.Controllers
 
 
         public User myUser;
+       
      //    UserRepository newUser = new UserRepository();
 
 
