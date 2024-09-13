@@ -27,7 +27,7 @@ namespace UMSAPI.Controllers
                 cmd.Parameters.AddWithValue("userId", userId);
                 con.Open();
                 int k = cmd.ExecuteNonQuery();
-                LogWriter.DeleteLogWrite("UserDeleted Successfully", path);
+                LogWriter.DeleteLogWrite("UserDeleted Successfully--User_Id: "+userId, path);
                 return 1;
                 con.Close();
             }
