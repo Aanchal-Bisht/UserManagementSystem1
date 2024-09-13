@@ -1,4 +1,0 @@
-2024-09-11 10:41:08.102 +05:30 [INF] Executing ObjectResult, writing value of type 'System.Int32'.
-2024-09-11 10:41:08.118 +05:30 [INF] Executed action UMSAPI.Controllers.RegistrationController.Registeration (UMSAPI) in 43986.3322ms
-2024-09-11 10:41:08.118 +05:30 [INF] Executed endpoint 'UMSAPI.Controllers.RegistrationController.Registeration (UMSAPI)'
-2024-09-11 10:41:08.118 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5045/api/Registration?username=lalita&email=lalita67@gmail.com&password=1&gender=F&dob=01-01-0001&Department=HR&phone=8974561236 - 200 null application/json; charset=utf-8 44033.9781ms

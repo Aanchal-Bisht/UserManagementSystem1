@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
 using System.Data;
 
 namespace UMSAPI.Controllers
@@ -9,9 +10,18 @@ namespace UMSAPI.Controllers
     [ApiController]
     public class UpdationController : ControllerBase
     {
+        private IOptions<RegLogfileConfig> _logConfig;
+         public UpdationController(IOptions<RegLogfileConfig> logConfig)
+        {
+            _logConfig = logConfig;
+        }
+
+
+
         [HttpPatch(Name = "PatchUserDetails")]
         public int Patch(string UserId, string username, string email, string dob, string Gender, string Department, string phone)
         {
+            string ReglogFilePath = _logConfig.Value.RegLogFilePath;
             try
             {
                 SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
@@ -25,6 +35,7 @@ namespace UMSAPI.Controllers
                 cmd.Parameters.AddWithValue("phone", phone);
                 cmd.Parameters.AddWithValue("dept", Department);
                 con.Open();
+                Logfile.UpdateLogWrite("User Updated Successfully" + " " + username, ReglogFilePath);
 
                 int k = cmd.ExecuteNonQuery();
                 return 1;

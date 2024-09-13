@@ -22,7 +22,7 @@ namespace User_Management_System.Controllers
 
 
         public User myUser;
-        UserRepository newUser = new UserRepository();
+       
      //    UserRepository newUser = new UserRepository();
 
 
@@ -41,8 +41,6 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
-        // method to hit the delete user Api 
-        private string deleteUserApi(int userId, string url)
       
         public string PatchUserApi(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone, string url)
         {
@@ -302,7 +300,7 @@ namespace User_Management_System.Controllers
             myUser.Phone = phone;
 
             //TempData["newuser"] = myUser;
-            newUser.AddUser(myUser);
+            //newUser.AddUser(myUser);
             return RedirectToAction("Login");
         }
 
