@@ -59,11 +59,12 @@ namespace User_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                {
+                
                     LogWriter.LogWrite("User_Management_System.Controllers.PatchUserApi.delete: Exception => " + ex.ToString(), path);
-                }
-                return null;
+                
+                
             }
+            return null;
         }
         private string deleteUserApi(int userId, string url)
         {
@@ -327,34 +328,44 @@ namespace User_Management_System.Controllers
 
                 return reader.ReadToEnd();
             }
-            catch
+            catch (Exception ex)
             {
-                return null;
+                LogWriter.LogWrite("User_Management_System.Controllers.PostApiResponse: Exception => " + ex.ToString(), path);
+
             }
+                    return null;
         }
 
         [HttpPost]
         public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
         {
-            string url = _custom.Value.Post_API_URL + "?username=" + username + "&email=" + email + "&password=" + password + "&gender=" + Gender + "&dob=" +dob + "&Department=" + Department + "&phone=" + phone;
+            try
+            {
+                string url = _custom.Value.Post_API_URL + "?username=" + username + "&email=" + email + "&password=" + password + "&gender=" + Gender + "&dob=" + dob + "&Department=" + Department + "&phone=" + phone;
 
-            var classobject = PostApiResponse(username,  email,  password, dob,  Gender,Department,  phone,url);
+                var classobject = PostApiResponse(username, email, password, dob, Gender, Department, phone, url);
 
-            myUser = new User();
-            myUser.UserName = username;
-            myUser.Email = email;
-            myUser.Password = password;
-            myUser.DOB = dob.ToString();
-            myUser.Gender = Gender;
-            myUser.DeptName = Department;
-            myUser.Phone = phone;
+                myUser = new User();
+                myUser.UserName = username;
+                myUser.Email = email;
+                myUser.Password = password;
+                myUser.DOB = dob.ToString();
+                myUser.Gender = Gender;
+                myUser.DeptName = Department;
+                myUser.Phone = phone;
 
-            //TempData["newuser"] = myUser;
-            //newUser.AddUser(myUser);
+                //TempData["newuser"] = myUser;
+                //newUser.AddUser(myUser);
+                return RedirectToAction("Login");
+            }
+            catch (Exception ex)
+            {
+                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToLogin: Exception => " + ex.ToString(), path);
+            }
             return RedirectToAction("Login");
         }
 
-        public IActionResult Contact()
+            public IActionResult Contact()
         {
             return View();
         }
