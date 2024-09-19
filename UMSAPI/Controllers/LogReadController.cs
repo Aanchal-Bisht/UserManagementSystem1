@@ -8,7 +8,7 @@ namespace UMSAPI.Controllers
     public class LogReadController : Controller
     {
        private IOptions<LogFileConfig> _logConfig;
-        public LogReadController(IOptions<LogFileConfig> logConfig)
+         public LogReadController(IOptions<LogFileConfig> logConfig)
         {
             _logConfig = logConfig;
         }
@@ -21,7 +21,14 @@ namespace UMSAPI.Controllers
             using (StreamReader reader = new StreamReader(fileStream))
             {
                 string line = reader.ReadToEnd();
-                return line;
+                if (line != null)
+                {
+                    return line;
+                }
+                else
+                {
+                    return "Data is not present";
+                }
             }
 
 
