@@ -12,6 +12,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using UMSAPI;
 namespace User_Management_System.Controllers
 {
     public class UserController : Controller
@@ -19,18 +20,19 @@ namespace User_Management_System.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
         private IOptions<CustomConfig> _customConfig;
-
+        private readonly IOptions<LogFileConfig> _logFileConfig;
         public User myUser;
         UserRepository newUser = new UserRepository();
+        private readonly string path=string.Empty;
 
 
-
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<LogFileConfig> logFileConfig)
         {
             _logger = logger;
             _configuration = configuration;
             _customConfig = customConfig;
-
+            _logFileConfig = logFileConfig;
+             path = _logFileConfig.Value.LogFilePath;
         }
 
         public IActionResult Index()
@@ -40,9 +42,10 @@ namespace User_Management_System.Controllers
         // method to hit the delete user Api 
         private string deleteUserApi(int userId, string url)
         {
-
+          
             try
             {
+               
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Delete, url);
                 var response = client.Send(request);
@@ -50,8 +53,9 @@ namespace User_Management_System.Controllers
                 var list = reader.ReadToEnd();
                 return list;
             }
-            catch
-            {
+            catch(Exception ex) {
+
+                LogWriter.LogWrite("User_Management_System.Controllers.deleteUserApi.delete: Exception => " + ex.ToString(),path);
                 return null;
             }
         }
@@ -59,30 +63,39 @@ namespace User_Management_System.Controllers
         [HttpPost]
         public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
         {
-            myUser = new User();
-            myUser.UserId = Convert.ToInt32(userId);
-            myUser.UserName = username;
-            myUser.Email = email;
-            myUser.DOB = dob.ToString();
-            myUser.Gender = gender;
-            myUser.DeptName = department;
-            myUser.Phone = phone;
-            Console.WriteLine(myUser.DeptName);
-            //TempData["newuser"] = myUser;
-            int id = Convert.ToInt32(myUser.UserId);
-            if (buttontype == "save")
-            {
-                newUser.UpdateUser(myUser);
-            }
-            if (buttontype == "delete")
-            {
-                string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
-                var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
-                Console.WriteLine(deleteApiResponseObject);
-                // newUser.DeleteUser(id);
-            }
+            try {
+                myUser = new User();
+                myUser.UserId = Convert.ToInt32(userId);
+                myUser.UserName = username;
+                myUser.Email = email;
+                myUser.DOB = dob.ToString();
+                myUser.Gender = gender;
+                myUser.DeptName = department;
+                myUser.Phone = phone;
+                Console.WriteLine(myUser.DeptName);
+                //TempData["newuser"] = myUser;
+                int id = Convert.ToInt32(myUser.UserId);
+                if (buttontype == "save")
+                {
+                    newUser.UpdateUser(myUser);
+                }
+                if (buttontype == "delete")
+                { try
+                    {
+                        string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
+                        var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
+                    } catch (Exception e)
+                    {
+                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
+                    }
+                }
 
-            return View("Index");
+                return View("Index");
+            }catch(Exception e)
+            {
+                LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
+                return View("Index");
+            }
         }
 
 
@@ -112,30 +125,42 @@ namespace User_Management_System.Controllers
                 var list = reader.ReadToEnd();
                 return list;
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                {
+                    LogWriter.LogWrite("User_Management_System.Controllers.GetUserListfromApi.Get: Exception => " + e.ToString(), path);
+
+                    return null;
+                }
             }
         }
         public IActionResult UserList()
 
         {
-            //calling api hitting method
-            string url = _customConfig.Value.UserListApiUrl;
-            var yourClassObject = GetUserListfromApi(url);
-            //converting json string to datatable object
-            var dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-
-            //Console.WriteLine(dataTable);
-            //DataTable dt = newUser.getUserList();
-            if (dataTable != null)
+            try
             {
-                ViewBag.DataTable = dataTable;
+                //calling api hitting method
+                string url = _customConfig.Value.UserListApiUrl;
+                var yourClassObject = GetUserListfromApi(url);
+                //converting json string to datatable object
+                var dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
+
+                //Console.WriteLine(dataTable);
+                //DataTable dt = newUser.getUserList();
+                if (dataTable != null)
+                {
+                    ViewBag.DataTable = dataTable;
+                }
+                return View();
             }
-            return View();
+            catch (Exception e)
+            {
+                LogWriter.LogWrite("User_Management_System.Controllers.UserList: Exception => " + e.ToString(), path);
+                return View();
+            }
         }
-        // api hit for getting user details for login and dashboard 
-        private string GetUserDetailsFromAPI(string userName, string pwd, string url)
+            // api hit for getting user details for login and dashboard 
+            private string GetUserDetailsFromAPI(string userName, string pwd, string url)
         {
             //hit the api passing "userName, pwd"
 
@@ -154,84 +179,94 @@ namespace User_Management_System.Controllers
 
                 return reader.ReadToEnd();
             }
-            catch
+            catch (Exception e)
             {
-                return null;
+                {
+                    LogWriter.LogWrite("User_Management_System.Controllers.GetUserDetailsFromAPI.Get: Exception => " + e.ToString(), path);
+
+                    return null;
+                }
+
             }
-
-
         }
 
         [HttpPost]
         public IActionResult RedirectToHome(string userName, string pwd)
         {
-            string url = _customConfig.Value.UserDetailsApiUrl + "?userName=" + userName + "&Pass=" + pwd;
-            //call the api method here
-            var yourClassObject = GetUserDetailsFromAPI(userName, pwd, url);
-            // Console.WriteLine(yourClassObject.ToString());
-            DataTable dt = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-            //User myu1 = new User();
-            //DataTable res = newUser.getUserDetails(userName, pwd);
-            //myu1 = newUser.DisplayUser(userName, pwd);
-            User user = new User();
-            //  List<User> studentList = new List<Student>();
-            var rowCount = (dt != null ? dt.Rows.Count : 0);
-
-            for (var i = 0; i < rowCount; i++)
+            try
             {
+                string url = _customConfig.Value.UserDetailsApiUrl + "?userName=" + userName + "&Pass=" + pwd;
+                //call the api method here
+                var yourClassObject = GetUserDetailsFromAPI(userName, pwd, url);
+                // Console.WriteLine(yourClassObject.ToString());
+                DataTable dt = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
+                //User myu1 = new User();
+                //DataTable res = newUser.getUserDetails(userName, pwd);
+                //myu1 = newUser.DisplayUser(userName, pwd);
+                User user = new User();
+                //  List<User> studentList = new List<Student>();
+                var rowCount = (dt != null ? dt.Rows.Count : 0);
 
-                user.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
-                user.UserName = dt.Rows[i]["UserName"].ToString();
-                user.Password = dt.Rows[i]["Pwd"].ToString();
-                user.Email = dt.Rows[i]["Email"].ToString();
-                user.Phone = dt.Rows[i]["ContactNo"].ToString();
-                user.Gender = dt.Rows[i]["Gender"].ToString();
-                user.DOB = dt.Rows[i]["DOB"].ToString();
-                user.DeptName = dt.Rows[i]["DeptId"].ToString();
-                user.RoleId = dt.Rows[i]["RoleId"].ToString();
-                // studentList.Add(student);
+                for (var i = 0; i < rowCount; i++)
+                {
+
+                    user.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
+                    user.UserName = dt.Rows[i]["UserName"].ToString();
+                    user.Password = dt.Rows[i]["Pwd"].ToString();
+                    user.Email = dt.Rows[i]["Email"].ToString();
+                    user.Phone = dt.Rows[i]["ContactNo"].ToString();
+                    user.Gender = dt.Rows[i]["Gender"].ToString();
+                    user.DOB = dt.Rows[i]["DOB"].ToString();
+                    user.DeptName = dt.Rows[i]["DeptId"].ToString();
+                    user.RoleId = dt.Rows[i]["RoleId"].ToString();
+                    // studentList.Add(student);
+                }
+
+                // Console.WriteLine(myu1.RoleId);
+                if (rowCount > 0 && string.IsNullOrEmpty(user.RoleId))//common user
+                {
+                    TempData["user"] = userName;
+                    // User myu1 =newUser.DisplayUser(userName, pwd);
+                    //  Console.WriteLine(myu1.UserName);
+                    TempData["userName"] = user.UserName;
+                    TempData["userId"] = user.UserId;
+                    TempData["Email"] = user.Email;
+                    TempData["Gender"] = user.Gender;
+                    DateTime dateObject = DateTime.Parse(user.DOB);
+                    TempData["DOB"] = dateObject.Date;
+                    // Console.WriteLine(TempData["DOB"]); 
+                    TempData["Phone"] = user.Phone;
+                    TempData["DeptName"] = user.DeptName;
+                    TempData["UserRoleId"] = user.RoleId;
+
+                    TempData["Check"] = true;
+                    // Console.WriteLine(TempData["userId"]);
+                    return RedirectToAction("Index");
+                }
+                else if (rowCount > 0 && !string.IsNullOrEmpty(user.RoleId))//admin user check
+                {
+                    TempData["UserRoleId"] = user.RoleId;//storing admin user's role-id
+
+                    TempData["Check"] = true;//for identifying admin user on different pages
+
+                    return RedirectToAction("UserList");//sending admin user to users-list as only admin user has access to this
+                }
+
+                else//invalid user
+                {
+
+                    ViewBag.Message = "Invalid user";
+                    return View("Login");
+                }
             }
-
-            // Console.WriteLine(myu1.RoleId);
-            if (rowCount > 0 && string.IsNullOrEmpty(user.RoleId))//common user
+            catch (Exception ex)
             {
-                TempData["user"] = userName;
-                // User myu1 =newUser.DisplayUser(userName, pwd);
-                //  Console.WriteLine(myu1.UserName);
-                TempData["userName"] = user.UserName;
-                TempData["userId"] = user.UserId;
-                TempData["Email"] = user.Email;
-                TempData["Gender"] = user.Gender;
-                DateTime dateObject = DateTime.Parse(user.DOB);
-                TempData["DOB"] = dateObject.Date;
-                // Console.WriteLine(TempData["DOB"]); 
-                TempData["Phone"] = user.Phone;
-                TempData["DeptName"] = user.DeptName;
-                TempData["UserRoleId"] = user.RoleId;
-
-                TempData["Check"] = true;
-                // Console.WriteLine(TempData["userId"]);
-                return RedirectToAction("Index");
+                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToHome: Exception => " + ex.ToString(), path);
+                return View( );
             }
-            else if (rowCount > 0 && !string.IsNullOrEmpty(user.RoleId))//admin user check
-            {
-                TempData["UserRoleId"] = user.RoleId;//storing admin user's role-id
-
-                TempData["Check"] = true;//for identifying admin user on different pages
-
-                return RedirectToAction("UserList");//sending admin user to users-list as only admin user has access to this
-            }
-
-            else//invalid user
-            {
-
-                ViewBag.Message = "Invalid user";
-                return View("Login");
-            }
-
         }
 
-        public IActionResult Register()
+            public IActionResult Register()
         {
             return View();
         }
