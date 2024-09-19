@@ -43,7 +43,7 @@ namespace UMSAPI.Controllers
             cmd.Parameters.AddWithValue("DeptId", Department);
                 //   cmd.Parameters.AddWithValue("RoleId", RoleId);
             con.Open();
-            LogWriter.RegisterLogWrite("User Sucsessfully Registered" + " " + username, RegLogfilePath);
+            LogWriter.LogWrite("User Sucsessfully Registered" + " " + username, RegLogfilePath);
                 int k = cmd.ExecuteNonQuery();
                 return 1;
                 con.Close();

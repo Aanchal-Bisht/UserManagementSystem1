@@ -48,50 +48,50 @@ namespace UMSAPI
             }
         }
 
-        public static void RegisterLogWrite(string logMessage, string path)
-        {
+        //public static void RegisterLogWrite(string logMessage, string path)
+        //{
 
-            // m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            //m_exePath= "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\LogFile";
-            m_exePath = path;
-            if (string.IsNullOrEmpty(m_exePath) == false)
-            {
+        //    // m_exePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //    //m_exePath= "C:\\Users\\ParthBajaj\\source\\repos\\UserManagementSystem1\\UMSAPI\\LogFile";
+        //    m_exePath = path;
+        //    if (string.IsNullOrEmpty(m_exePath) == false)
+        //    {
 
-                if (!File.Exists(m_exePath + "\\" + "log.txt"))
-                    File.Create(m_exePath + "\\" + "log.txt");
+        //        if (!File.Exists(m_exePath + "\\" + "log.txt"))
+        //            File.Create(m_exePath + "\\" + "log.txt");
 
-                try
-                {
-                    using (StreamWriter w = File.AppendText(m_exePath + "\\" + "log.txt"))
-                        AppendLog(logMessage, w);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-        }
+        //        try
+        //        {
+        //            using (StreamWriter w = File.AppendText(m_exePath + "\\" + "log.txt"))
+        //                AppendLog(logMessage, w);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.Message);
+        //        }
+        //    }
+        //}
 
-        public static void UpdateLogWrite(string logMessage, string path)
-        {
-            m_exePath = path;
-            if (string.IsNullOrEmpty(m_exePath) == false)
-            {
+        //public static void UpdateLogWrite(string logMessage, string path)
+        //{
+        //    m_exePath = path;
+        //    if (string.IsNullOrEmpty(m_exePath) == false)
+        //    {
 
-                if (!File.Exists(m_exePath + "\\" + "log.txt"))
-                    File.Create(m_exePath + "\\" + "log.txt");
+        //        if (!File.Exists(m_exePath + "\\" + "log.txt"))
+        //            File.Create(m_exePath + "\\" + "log.txt");
 
-                try
-                {
-                    using (StreamWriter w = File.AppendText(m_exePath + "\\" + "log.txt"))
-                        AppendLog(logMessage, w);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-        }
+        //        try
+        //        {
+        //            using (StreamWriter w = File.AppendText(m_exePath + "\\" + "log.txt"))
+        //                AppendLog(logMessage, w);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Console.WriteLine(ex.Message);
+        //        }
+        //    }
+        //}
         private static void AppendLog(string logMessage, TextWriter txtWriter)
         {
             try
