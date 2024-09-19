@@ -21,28 +21,28 @@ namespace User_Management_System.Controllers
         private IOptions<CustomConfig> _customConfig;
         private readonly IOptions<LogFileConfig> _logFileConfig;
         private readonly IOptions<Custom> _custom;
-        private readonly IOptions<CustomConfig> _customConfig;
+
 
 
         public User myUser;
-        UserRepository newUser = new UserRepository();
-        private readonly string path=string.Empty;
+        //   UserRepository newUser = new UserRepository();
+        private readonly string path = string.Empty;
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<LogFileConfig> logFileConfig)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<Custom> _custom, IOptions<LogFileConfig> logFileConfig)
         {
             _logger = logger;
             _configuration = configuration;
             _customConfig = customConfig;
             _logFileConfig = logFileConfig;
-             path = _logFileConfig.Value.LogFilePath;
+            path = _logFileConfig.Value.LogFilePath;
         }
 
         public IActionResult Index()
         {
             return View();
         }
-      
+
         public string PatchUserApi(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone, string url)
         {
             try
@@ -57,17 +57,20 @@ namespace User_Management_System.Controllers
 
                 return reader.ReadToEnd();
             }
-            catch
+            catch (Exception ex)
             {
+                {
+                    LogWriter.LogWrite("User_Management_System.Controllers.PatchUserApi.delete: Exception => " + ex.ToString(), path);
+                }
                 return null;
             }
         }
         private string deleteUserApi(int userId, string url)
         {
-          
+
             try
             {
-               
+
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Delete, url);
                 var response = client.Send(request);
@@ -75,17 +78,20 @@ namespace User_Management_System.Controllers
                 var list = reader.ReadToEnd();
                 return list;
             }
-            catch(Exception ex) {
+            catch (Exception ex)
+            {
 
-                LogWriter.LogWrite("User_Management_System.Controllers.deleteUserApi.delete: Exception => " + ex.ToString(),path);
-                return null;
+                LogWriter.LogWrite("User_Management_System.Controllers.deleteUserApi.delete: Exception => " + ex.ToString(), path);
+
             }
+            return null;
         }
 
         [HttpPost]
         public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
         {
-            try {
+            try
+            {
                 myUser = new User();
                 myUser.UserId = Convert.ToInt32(userId);
                 myUser.UserName = username;
@@ -97,57 +103,45 @@ namespace User_Management_System.Controllers
                 Console.WriteLine(myUser.DeptName);
                 //TempData["newuser"] = myUser;
                 int id = Convert.ToInt32(myUser.UserId);
-                if (buttontype == "save")
-                {
-                    newUser.UpdateUser(myUser);
-                }
+
                 if (buttontype == "delete")
-                { try
+                {
+                    try
                     {
                         string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
                         var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
-                    } catch (Exception e)
+                        return View("Index");
+                    }
+                    catch (Exception e)
                     {
                         LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
                     }
+                   
                 }
-            myUser = new User();
-            myUser.UserId = Convert.ToInt32(userId);
-            myUser.UserName = username;
-            myUser.Email = email;
-            myUser.DOB = dob.ToString();
-            myUser.Gender = gender;
-            myUser.DeptName = department;
-            myUser.Phone = phone;
-            Console.WriteLine(myUser.DeptName);
-            //TempData["newuser"] = myUser;
-            int id = Convert.ToInt32(myUser.UserId);
+                if (buttontype == "save")
+                {
+                    try
+                    {
+                        string url = _custom.Value.Patch_API_URL + "?userId=" + userId + "&username=" + username + "&email=" + email + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
+                        var PatchApiResponseObject = PatchUserApi(userId, username, email, dob, gender, department, phone, url);
+                        return View("Index");
+                    }
+                    catch (Exception e)
+                    {
+                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
 
-            if (buttontype == "save")
-            {
-                string url = _custom.Value.Patch_API_URL + "?userId=" +userId + "&username=" + username + "&email=" + email + "&gender=" + gender +"&dob=" + dob + "&Department=" + department + "&phone=" + phone; 
-                var PatchApiResponseObject = PatchUserApi(userId, username, email, dob, gender,department, phone, url);
-                Console.WriteLine(PatchApiResponseObject);
-                
-            }
-
-            if (buttontype == "delete")
-            {
-                string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
-                var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
-                Console.WriteLine(deleteApiResponseObject);
-                // newUser.DeleteUser(id);
-            }
-
+                    }
+                }
                 return View("Index");
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
-                return View("Index");
+
             }
+            return View("Index");
         }
-
-
+    
         public IActionResult Privacy()
         {
             return View();
@@ -176,12 +170,10 @@ namespace User_Management_System.Controllers
             }
             catch (Exception e)
             {
-                {
                     LogWriter.LogWrite("User_Management_System.Controllers.GetUserListfromApi.Get: Exception => " + e.ToString(), path);
 
-                    return null;
-                }
             }
+            return null;
         }
         public IActionResult UserList()
 
@@ -205,8 +197,9 @@ namespace User_Management_System.Controllers
             catch (Exception e)
             {
                 LogWriter.LogWrite("User_Management_System.Controllers.UserList: Exception => " + e.ToString(), path);
-                return View();
+                
             }
+            return View();
         }
             // api hit for getting user details for login and dashboard 
             private string GetUserDetailsFromAPI(string userName, string pwd, string url)
@@ -230,14 +223,14 @@ namespace User_Management_System.Controllers
             }
             catch (Exception e)
             {
-                {
-                    LogWriter.LogWrite("User_Management_System.Controllers.GetUserDetailsFromAPI.Get: Exception => " + e.ToString(), path);
 
-                    return null;
-                }
+                LogWriter.LogWrite("User_Management_System.Controllers.GetUserDetailsFromAPI.Get: Exception => " + e.ToString(), path);
+
+
 
             }
-        }
+                return null;
+            }
 
         [HttpPost]
         public IActionResult RedirectToHome(string userName, string pwd)
@@ -311,8 +304,9 @@ namespace User_Management_System.Controllers
             catch (Exception ex)
             {
                 LogWriter.LogWrite("User_Management_System.Controllers.RedirectToHome: Exception => " + ex.ToString(), path);
-                return View( );
+               
             }
+            return View("Login");
         }
 
             public IActionResult Register()
