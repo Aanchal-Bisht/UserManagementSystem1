@@ -35,7 +35,7 @@ namespace UMSAPI.Controllers
                 cmd.Parameters.AddWithValue("phone", phone);
                 cmd.Parameters.AddWithValue("dept", Department);
                 con.Open();
-                Logfile.UpdateLogWrite("User Updated Successfully" + " " + username, ReglogFilePath);
+                LogWriter.UpdateLogWrite("User Updated Successfully" + " " + username, ReglogFilePath);
 
                 int k = cmd.ExecuteNonQuery();
                 return 1;
