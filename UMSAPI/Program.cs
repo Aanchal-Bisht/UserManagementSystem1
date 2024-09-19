@@ -1,11 +1,11 @@
-using Serilog;
 using UMSAPI;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("origin",
+    options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
             builder.WithOrigins("http://localhost:5272")
@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<LogFileConfig>(builder.Configuration.GetSection("LogFileConfig"));
 
 builder.Services.Configure<RegLogfileConfig>(builder.Configuration.GetSection("RegLogfileConfig"));
 
@@ -28,7 +29,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors("origin");
+
+app.UseCors("AllowSpecificOrigin");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

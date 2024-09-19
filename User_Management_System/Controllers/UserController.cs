@@ -1,4 +1,4 @@
-  using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
@@ -104,10 +104,10 @@ namespace User_Management_System.Controllers
 
             if (buttontype == "delete")
             {
-                string url=_customConfig.Value.DeleteUserApiUrl+"?userId="+userId;
+                string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
                 var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
                 Console.WriteLine(deleteApiResponseObject);
-               // newUser.DeleteUser(id);
+                // newUser.DeleteUser(id);
             }
 
             return View("Index");
@@ -118,9 +118,6 @@ namespace User_Management_System.Controllers
         {
             return View();
         }
-        
-            
-
 
         public IActionResult Login()
         {
@@ -143,7 +140,7 @@ namespace User_Management_System.Controllers
                 var list = reader.ReadToEnd();
                 return list;
             }
-            catch 
+            catch
             {
                 return null;
             }
@@ -153,10 +150,10 @@ namespace User_Management_System.Controllers
         {
             //calling api hitting method
             string url = _customConfig.Value.UserListApiUrl;
-            var yourClassObject= GetUserListfromApi(url);
+            var yourClassObject = GetUserListfromApi(url);
             //converting json string to datatable object
             var dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-            
+
             //Console.WriteLine(dataTable);
             //DataTable dt = newUser.getUserList();
             if (dataTable != null)
@@ -165,7 +162,7 @@ namespace User_Management_System.Controllers
             }
             return View();
         }
-// api hit for getting user details for login and dashboard 
+        // api hit for getting user details for login and dashboard 
         private string GetUserDetailsFromAPI(string userName, string pwd, string url)
         {
             //hit the api passing "userName, pwd"
@@ -204,53 +201,56 @@ namespace User_Management_System.Controllers
             //User myu1 = new User();
             //DataTable res = newUser.getUserDetails(userName, pwd);
             //myu1 = newUser.DisplayUser(userName, pwd);
-            User student = new User();
+            User user = new User();
             //  List<User> studentList = new List<Student>();
-            for (int i = 0; i < dt.Rows.Count; i++)
+            var rowCount = (dt != null ? dt.Rows.Count : 0);
+
+            for (var i = 0; i < rowCount; i++)
             {
-              
-                student.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
-                student.UserName = dt.Rows[i]["UserName"].ToString();
-                student.Password = dt.Rows[i]["Pwd"].ToString();
-                student.Email = dt.Rows[i]["Email"].ToString();
-                student.Phone = dt.Rows[i]["ContactNo"].ToString();
-                student.Gender = dt.Rows[i]["Gender"].ToString();
-                student.DOB = dt.Rows[i]["DOB"].ToString();
-                student.DeptName = dt.Rows[i]["DeptId"].ToString();
-                student.RoleId = dt.Rows[i]["RoleId"].ToString();
+
+                user.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
+                user.UserName = dt.Rows[i]["UserName"].ToString();
+                user.Password = dt.Rows[i]["Pwd"].ToString();
+                user.Email = dt.Rows[i]["Email"].ToString();
+                user.Phone = dt.Rows[i]["ContactNo"].ToString();
+                user.Gender = dt.Rows[i]["Gender"].ToString();
+                user.DOB = dt.Rows[i]["DOB"].ToString();
+                user.DeptName = dt.Rows[i]["DeptId"].ToString();
+                user.RoleId = dt.Rows[i]["RoleId"].ToString();
                 // studentList.Add(student);
             }
 
             // Console.WriteLine(myu1.RoleId);
-            if (dt.Rows.Count > 0 && string.IsNullOrEmpty(student.RoleId))
+            if (rowCount > 0 && string.IsNullOrEmpty(user.RoleId))//common user
             {
                 TempData["user"] = userName;
                 // User myu1 =newUser.DisplayUser(userName, pwd);
-              //  Console.WriteLine(myu1.UserName);
-                TempData["userName"] = student.UserName;
-                TempData["userId"] = student.UserId;
-                TempData["Email"] = student.Email;
-                TempData["Gender"] = student.Gender;
-                DateTime dateObject = DateTime.Parse(student.DOB);
+                //  Console.WriteLine(myu1.UserName);
+                TempData["userName"] = user.UserName;
+                TempData["userId"] = user.UserId;
+                TempData["Email"] = user.Email;
+                TempData["Gender"] = user.Gender;
+                DateTime dateObject = DateTime.Parse(user.DOB);
                 TempData["DOB"] = dateObject.Date;
                 // Console.WriteLine(TempData["DOB"]); 
-                TempData["Phone"] = student.Phone;
-                TempData["DeptName"] = student.DeptName;
-                TempData["UserRoleId"] = student.RoleId;
+                TempData["Phone"] = user.Phone;
+                TempData["DeptName"] = user.DeptName;
+                TempData["UserRoleId"] = user.RoleId;
 
                 TempData["Check"] = true;
                 // Console.WriteLine(TempData["userId"]);
                 return RedirectToAction("Index");
             }
-            else if (dt.Rows.Count > 0 && !string.IsNullOrEmpty(student.RoleId))
+            else if (rowCount > 0 && !string.IsNullOrEmpty(user.RoleId))//admin user check
             {
-                TempData["UserRoleId"] = student.RoleId;
+                TempData["UserRoleId"] = user.RoleId;//storing admin user's role-id
 
-                TempData["Check"] = true;
-                return RedirectToAction("UserList");
+                TempData["Check"] = true;//for identifying admin user on different pages
+
+                return RedirectToAction("UserList");//sending admin user to users-list as only admin user has access to this
             }
 
-            else
+            else//invalid user
             {
 
                 ViewBag.Message = "Invalid user";
@@ -260,9 +260,7 @@ namespace User_Management_System.Controllers
         }
 
         public IActionResult Register()
-
         {
-            _logger.LogInformation("Register Method Called");
             return View();
         }
         public string PostApiResponse(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone,string url)
@@ -284,7 +282,6 @@ namespace User_Management_System.Controllers
                 return null;
             }
         }
-
 
         [HttpPost]
         public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
