@@ -1,6 +1,6 @@
 ﻿namespace UMSAPI
 {
-    public class User
+    public class User1
     {
         public int? UserId { get; set; }
         public string? UserName { get; set; }
