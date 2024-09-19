@@ -29,11 +29,12 @@ namespace User_Management_System.Controllers
         private readonly string path = string.Empty;
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<Custom> _custom, IOptions<LogFileConfig> logFileConfig)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<Custom> custom, IOptions<LogFileConfig> logFileConfig)
         {
             _logger = logger;
             _configuration = configuration;
             _customConfig = customConfig;
+            _custom=custom;
             _logFileConfig = logFileConfig;
             path = _logFileConfig.Value.LogFilePath;
         }
