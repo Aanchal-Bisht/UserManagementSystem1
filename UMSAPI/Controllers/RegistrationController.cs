@@ -14,8 +14,8 @@ namespace UMSAPI.Controllers
 
     public class RegistrationController : ControllerBase { 
 
-        private IOptions<RegLogfileConfig> _logConfig;
-    public RegistrationController (IOptions<RegLogfileConfig> logConfig)
+        private IOptions<LogFileConfig> _logConfig;
+    public RegistrationController (IOptions<LogFileConfig> logConfig)
     {
         _logConfig = logConfig;
     }
@@ -27,7 +27,7 @@ namespace UMSAPI.Controllers
        
         public int Registeration(string username, string email, string password, string dob, string Gender, string Department, string phone)
         {
-         string RegLogfilePath = _logConfig.Value.RegLogFilePath;
+         string RegLogfilePath = _logConfig.Value.LogFilePath;
 
             try { 
 
@@ -43,7 +43,7 @@ namespace UMSAPI.Controllers
             cmd.Parameters.AddWithValue("DeptId", Department);
                 //   cmd.Parameters.AddWithValue("RoleId", RoleId);
             con.Open();
-                LogWriter.RegisterLogWrite("User Sucsessfully Registered" + " " + username, RegLogfilePath);
+            LogWriter.RegisterLogWrite("User Sucsessfully Registered" + " " + username, RegLogfilePath);
                 int k = cmd.ExecuteNonQuery();
                 return 1;
                 con.Close();
@@ -52,6 +52,7 @@ namespace UMSAPI.Controllers
 
             catch(Exception e)
             {
+                Console.WriteLine(e);
                 return -1;
             }
 

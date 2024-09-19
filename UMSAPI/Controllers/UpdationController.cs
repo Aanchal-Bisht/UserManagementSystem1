@@ -10,18 +10,17 @@ namespace UMSAPI.Controllers
     [ApiController]
     public class UpdationController : ControllerBase
     {
-        private IOptions<RegLogfileConfig> _logConfig;
-         public UpdationController(IOptions<RegLogfileConfig> logConfig)
+        private IOptions<LogFileConfig> _logConfig;
+        public UpdationController(IOptions<LogFileConfig> logConfig)
         {
             _logConfig = logConfig;
         }
 
 
-
         [HttpPatch(Name = "PatchUserDetails")]
         public int Patch(string UserId, string username, string email, string dob, string Gender, string Department, string phone)
         {
-            string ReglogFilePath = _logConfig.Value.RegLogFilePath;
+            string ReglogFilePath = _logConfig.Value.LogFilePath;
             try
             {
                 SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
