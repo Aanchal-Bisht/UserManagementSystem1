@@ -27,13 +27,13 @@ namespace UMSAPI.Controllers
                 cmd.Parameters.AddWithValue("userId", userId);
                 con.Open();
                 int k = cmd.ExecuteNonQuery();
-                LogWriter.DeleteLogWrite("UserDeleted Successfully--User_Id: "+userId, path);
+                LogWriter.LogWrite("UserDeleted Successfully--User_Id: "+userId, path);
                 return 1;
                 con.Close();
             }
             catch (Exception e)
             {    
-                LogWriter.DeleteLogWrite("UMSAPI.Controllers.DeleteUserController.Get: Exception => " + e.ToString(),path);
+                LogWriter.LogWrite("UMSAPI.Controllers.DeleteUserController.Get: Exception => " + e.ToString(),path);
                 return -1;  
             }
            
