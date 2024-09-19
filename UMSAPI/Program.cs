@@ -3,7 +3,16 @@ using UMSAPI;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("origin",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5272")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -20,7 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("origin");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
