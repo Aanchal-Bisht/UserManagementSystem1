@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>E:\UMS_publish\UMS</_PublishTargetUrl>
+    <History>True|2024-09-24T06:15:10.3230120Z||;False|2024-09-24T11:43:35.5569209+05:30||;False|2024-09-24T11:42:32.3081856+05:30||;False|2024-09-24T11:37:59.6633256+05:30||;False|2024-09-24T11:34:22.0516517+05:30||;False|2024-09-24T11:33:04.2253274+05:30||;False|2024-09-24T11:29:13.3677398+05:30||;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+</Project>
