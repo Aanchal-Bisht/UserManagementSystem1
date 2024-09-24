@@ -81,3 +81,14 @@
 /User_Management_System/obj/Release/net8.0/User_Management_System.GlobalUsings.g.cs
 /User_Management_System/obj/Release/net8.0/User_Management_System.RazorAssemblyInfo.cache
 /User_Management_System/obj/Release/net8.0/User_Management_System.RazorAssemblyInfo.cs
+/UMSAPI/bin/Release/net8.0/UMSAPI.exe
+/UMSAPI/bin/Release/net8.0/UMSAPI.pdb
+/UMSAPI/bin/Release/net8.0/UMSAPI.runtimeconfig.json
+/User_Management_System/bin/Release/net8.0/config
+*.json
+/User_Management_System/bin/Release/net8.0/UMSAPI.exe
+/User_Management_System/bin/Release/net8.0/UMSAPI.pdb
+/User_Management_System/bin/Release/net8.0/User_Management_System.exe
+/User_Management_System/bin/Release/net8.0/User_Management_System.pdb
+/User_Management_System/obj/Release/net8.0/scopedcss/Views/Shared
+/User_Management_System/obj/Release/net8.0/User_Management_System.pdb
