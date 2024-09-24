@@ -78,3 +78,6 @@
 /User_Management_System/bin/Debug/net8.0/System.Net.Http.Formatting.dll
 /User_Management_System/obj/project.assets.json
 /User_Management_System/obj/project.nuget.cache
+/User_Management_System/obj/Release/net8.0/User_Management_System.GlobalUsings.g.cs
+/User_Management_System/obj/Release/net8.0/User_Management_System.RazorAssemblyInfo.cache
+/User_Management_System/obj/Release/net8.0/User_Management_System.RazorAssemblyInfo.cs
