@@ -20,12 +20,12 @@ namespace User_Management_System.Controllers
         private readonly IConfiguration _configuration;
         private readonly IOptions<CustomConfig> _customConfig;
         private readonly IOptions<LogFileConfig> _logFileConfig;
-        private readonly IOptions<Custom> _custom;
+     
         private readonly string logFilePath = string.Empty;
         public User myUser;
 
 
-        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<Custom> custom, IOptions<LogFileConfig> logFileConfig)
+        public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<LogFileConfig> logFileConfig)
         {
             _logger = logger;
             _configuration = configuration;
