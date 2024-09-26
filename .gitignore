@@ -111,3 +111,17 @@
 /User_Management_System/obj/Release/net8.0/staticwebassets/msbuild.User_Management_System.Microsoft.AspNetCore.StaticWebAssets.props
 /User_Management_System/obj/Release/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs
 /User_Management_System/obj/Release/net8.0
+/UMSAPI/bin/Release/net8.0/win-x64/UMSAPI.exe
+/UMSAPI/bin/Release/net8.0/win-x64/UMSAPI.pdb
+/UMSAPI/Properties/PublishProfiles/FolderProfile.pubxml.user
+/UMSAPI/UMSAPI.csproj.user
+/User_Management_System/bin/Release/net8.0/win-x64/config/applicationhost.config
+/User_Management_System/bin/Release/net8.0/win-x64/UMSAPI.exe
+/User_Management_System/bin/Release/net8.0/win-x64/UMSAPI.pdb
+/User_Management_System/bin/Release/net8.0/win-x64/User_Management_System.exe
+/User_Management_System/bin/Release/net8.0/win-x64/User_Management_System.pdb
+/User_Management_System/obj/publish/win-x64/project.nuget.cache
+/User_Management_System/obj/publish/win-x64/User_Management_System.csproj.nuget.g.props
+/User_Management_System/obj/publish/win-x64/User_Management_System.csproj.nuget.g.targets
+/User_Management_System/Properties/PublishProfiles/FolderProfile.pubxml.user
+/User_Management_System/User_Management_System.csproj.user
