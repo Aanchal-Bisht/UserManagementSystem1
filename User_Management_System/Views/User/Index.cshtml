@@ -1,13 +1,13 @@
 ﻿@{
     ViewData["Title"] = "UMS";
     var user = TempData["user"];
-    var userid = TempData["userId"];
-    var username = TempData["userName"] as string;
-    var useremail = TempData["Email"] as string;
-    var usergender = TempData["Gender"] as string;
-    var userdob = TempData["DOB"]  ;
-    var userphone = TempData["Phone"] as string;
-    var userdept = TempData["DeptName"] as string;
+    var userId = TempData["userId"];
+    var userName = TempData["userName"] as string;
+    var userEmail = TempData["Email"] as string;
+    var userGender = TempData["Gender"] as string;
+    var userDob = TempData["DOB"]  ;
+    var userPhone = TempData["Phone"] as string;
+    var userDept = TempData["DeptName"] as string;
     var success = TempData["Success"];
 }
 <html>
@@ -37,13 +37,8 @@
     function savePopup() {
         alert("data saved");
     }
-    // $("#saveUser").click(function (e) {
-    //     e.preventDefault();
-    //     alert("saveUser called.");
-    // });
-
-
 </script>
+
 <style>
     .form-group{
         width:100%;
@@ -72,6 +67,7 @@
     justify-content:space-between;
 }
 </style>
+
 <div class="text-center ">
     @{
         if (user == null)
@@ -91,7 +87,7 @@
 </div>
 
 @{
-    if (@userid != null)
+    if (@userId != null)
     {
        
         <div class="text-center d-flex align-items-center justify-content-center ">
@@ -121,38 +117,38 @@
                      ">
                         <div class="form-group">
                             <label for="userId">User Id:</label>
-                            <input type="text" id="userIdDisplay" name="userId" value=@userid readonly >
+                            <input type="text" id="userIdDisplay" name="userId" value=@userId readonly >
                         </div><br />
                         <div class="form-group">
                             <label for="username">User Name:</label>
-                            <input type="text" id="usernameDisplay" name="username" value='@username'  readonly>
+                            <input type="text" id="usernameDisplay" name="username" value='@userName'  readonly>
                         </div><br />
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="text" id="emailDisplay" name="email" value=@useremail readonly>
+                            <input type="text" id="emailDisplay" name="email" value=@userEmail readonly>
                         </div> <br />
                         <div class="form-group">
                             <label for="dob">Date of Birth:</label>
-                            <input type="datetime" id="dobDisplay" name="dob" value=@userdob readonly>
+                            <input type="datetime" id="dobDisplay" name="dob" value=@userDob readonly>
                         </div> <br />
                         <div class="form-group">
                             <label for="gender">Gender:</label>
-                            <input type="text" id="genderDisplay" name="gender" maxlength="1" value=@usergender readonly>
+                            <input type="text" id="genderDisplay" name="gender" maxlength="1" value=@userGender readonly>
 
                         </div> <br />
                         <div class="form-group">
                             <label for="department">Department Name:</label>
-                            <input type="text" id="departmentDisplay" name="department" value=@userdept readonly>
+                            <input type="text" id="departmentDisplay" name="department" value=@userDept readonly>
                         </div> <br />
                         <div class="form-group">
                             <label for="phone">Phone Numbers:</label>
-                            <input type="text" name="phone" value=@userphone size="10" id="phoneDisplay" readonly />
+                            <input type="text" name="phone" value=@userPhone size="10" id="phoneDisplay" readonly />
                             <br> <br>
                         </div> <br />
 
                         <button type="button" name="buttontype" value="update" class="btn btn-primary" id="updateUser" onclick="removeReadonly()">Update</button>
-                        <button type="submit" name="buttontype" value="save" class="btn btn-primary" id="saveUser" hidden="true" onclick="savePopup()">save</button>
-                        <button type="submit" name="buttontype" value="delete" class="btn btn-primary" id="deleteUser" onclick="deletePopup()">Delete</button>
+                        <button type="submit" name="buttontype" value="save" class="btn btn-primary" id="saveUser" hidden="true" onsubmit="savePopup()">Save</button>
+                        <button type="submit" name="buttontype" value="delete" class="btn btn-primary" id="deleteUser" onsubmit="deletePopup()">Delete</button>
 
                     </form>
 

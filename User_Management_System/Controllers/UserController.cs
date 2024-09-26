@@ -18,15 +18,11 @@ namespace User_Management_System.Controllers
     {
         private readonly ILogger<UserController> _logger;
         private readonly IConfiguration _configuration;
-        private IOptions<CustomConfig> _customConfig;
+        private readonly IOptions<CustomConfig> _customConfig;
         private readonly IOptions<LogFileConfig> _logFileConfig;
         private readonly IOptions<Custom> _custom;
-
-
-
+        private readonly string logFilePath = string.Empty;
         public User myUser;
-        //   UserRepository newUser = new UserRepository();
-        private readonly string path = string.Empty;
 
 
         public UserController(ILogger<UserController> logger, IConfiguration configuration, IOptions<CustomConfig> customConfig, IOptions<Custom> custom, IOptions<LogFileConfig> logFileConfig)
@@ -34,9 +30,8 @@ namespace User_Management_System.Controllers
             _logger = logger;
             _configuration = configuration;
             _customConfig = customConfig;
-            _custom=custom;
             _logFileConfig = logFileConfig;
-            path = _logFileConfig.Value.LogFilePath;
+            logFilePath = _logFileConfig.Value.LogFilePath;
         }
 
         public IActionResult Index()
@@ -44,7 +39,7 @@ namespace User_Management_System.Controllers
             return View();
         }
 
-        public string PatchUserApi(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone, string url)
+        public string PatchUserApi(string userName, string email, string password, DateOnly dob, string gender, string department, string phone, string url)
         {
             try
             {
@@ -60,14 +55,14 @@ namespace User_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                
-                    LogWriter.LogWrite("User_Management_System.Controllers.PatchUserApi.delete: Exception => " + ex.ToString(), path);
-                
-                
+
+                LogWriter.LogWrite("User_Management_System.Controllers.PatchUserApi.delete: Exception => " + ex.ToString(), logFilePath);
+
+
             }
             return null;
         }
-        private string deleteUserApi(int userId, string url)
+        private string DeleteUserApi(int userId, string url)
         {
 
             try
@@ -83,54 +78,52 @@ namespace User_Management_System.Controllers
             catch (Exception ex)
             {
 
-                LogWriter.LogWrite("User_Management_System.Controllers.deleteUserApi.delete: Exception => " + ex.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.DeleteUserApi.delete: Exception => " + ex.ToString(), logFilePath);
 
             }
             return null;
         }
 
         [HttpPost]
-        public IActionResult Index(string userId, string username, string email, DateOnly dob, string gender, string department, string phone, string buttontype)
+        public IActionResult Index(string userId, string userName, string email, DateOnly dob, string gender, string department, string phone, string buttonType)
         {
             try
             {
                 myUser = new User();
                 myUser.UserId = Convert.ToInt32(userId);
-                myUser.UserName = username;
+                myUser.UserName = userName;
                 myUser.Email = email;
                 myUser.DOB = dob.ToString();
                 myUser.Gender = gender;
                 myUser.DeptName = department;
                 myUser.Phone = phone;
-                Console.WriteLine(myUser.DeptName);
-                //TempData["newuser"] = myUser;
                 int id = Convert.ToInt32(myUser.UserId);
 
-                if (buttontype == "delete")
+                if (buttonType == "delete")
                 {
                     try
                     {
-                        string url = _customConfig.Value.DeleteUserApiUrl + "?userId=" + userId;
-                        var deleteApiResponseObject = deleteUserApi(Convert.ToInt32(userId), url);
+                        string url = _customConfig.Value.ApiBaseUrl+ "DeleteUser" + "?userId=" + userId;
+                        var deleteApiResponseObject = DeleteUserApi(Convert.ToInt32(userId), url);
                         return View("Index");
                     }
                     catch (Exception e)
                     {
-                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
+                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), logFilePath);
                     }
-                   
+
                 }
-                if (buttontype == "save")
+                if (buttonType == "save")
                 {
                     try
                     {
-                        string url = _custom.Value.Patch_API_URL + "?userId=" + userId + "&username=" + username + "&email=" + email + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
-                        var PatchApiResponseObject = PatchUserApi(userId, username, email, dob, gender, department, phone, url);
+                        string url = _customConfig.Value.ApiBaseUrl + "api/Updation" + "?userId=" + userId + "&username=" + userName + "&email=" + email + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
+                        var patchApiResponseObject = PatchUserApi(userId, userName, email, dob, gender, department, phone, url);
                         return View("Index");
                     }
                     catch (Exception e)
                     {
-                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
+                        LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), logFilePath);
 
                     }
                 }
@@ -138,12 +131,12 @@ namespace User_Management_System.Controllers
             }
             catch (Exception e)
             {
-                LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.Index: Exception => " + e.ToString(), logFilePath);
 
             }
             return View("Index");
         }
-    
+
         public IActionResult Privacy()
         {
             return View();
@@ -159,7 +152,7 @@ namespace User_Management_System.Controllers
             return View();
         }
         // api hit for getting user details for admin user list 
-        private string GetUserListfromApi(string url)
+        private string GetUserListFromApi(string url)
         {
             try
             {
@@ -172,7 +165,7 @@ namespace User_Management_System.Controllers
             }
             catch (Exception e)
             {
-                    LogWriter.LogWrite("User_Management_System.Controllers.GetUserListfromApi.Get: Exception => " + e.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.GetUserListFromApi.Get: Exception => " + e.ToString(), logFilePath);
 
             }
             return null;
@@ -183,13 +176,10 @@ namespace User_Management_System.Controllers
             try
             {
                 //calling api hitting method
-                string url = _customConfig.Value.UserListApiUrl;
-                var yourClassObject = GetUserListfromApi(url);
+                string url = _customConfig.Value.ApiBaseUrl+ "UserList";
+                var userListFromApi = GetUserListFromApi(url);
                 //converting json string to datatable object
-                var dataTable = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-
-                //Console.WriteLine(dataTable);
-                //DataTable dt = newUser.getUserList();
+                var dataTable = JsonConvert.DeserializeObject<DataTable>(userListFromApi);
                 if (dataTable != null)
                 {
                     ViewBag.DataTable = dataTable;
@@ -198,13 +188,13 @@ namespace User_Management_System.Controllers
             }
             catch (Exception e)
             {
-                LogWriter.LogWrite("User_Management_System.Controllers.UserList: Exception => " + e.ToString(), path);
-                
+                LogWriter.LogWrite("User_Management_System.Controllers.UserList: Exception => " + e.ToString(), logFilePath);
+
             }
             return View();
         }
-            // api hit for getting user details for login and dashboard 
-            private string GetUserDetailsFromAPI(string userName, string pwd, string url)
+        // api hit for getting user details for login and dashboard 
+        private string GetUserDetailsFromAPI(string userName, string password, string url)
         {
             //hit the api passing "userName, pwd"
 
@@ -226,70 +216,57 @@ namespace User_Management_System.Controllers
             catch (Exception e)
             {
 
-                LogWriter.LogWrite("User_Management_System.Controllers.GetUserDetailsFromAPI.Get: Exception => " + e.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.GetUserDetailsFromAPI.Get: Exception => " + e.ToString(), logFilePath);
 
 
 
             }
-                return null;
-            }
+            return null;
+        }
 
         [HttpPost]
-        public IActionResult RedirectToHome(string userName, string pwd)
+        public IActionResult RedirectToHome(string userName, string password)
         {
             try
             {
-                string url = _customConfig.Value.UserDetailsApiUrl + "?userName=" + userName + "&Pass=" + pwd;
+                string url = _customConfig.Value.ApiBaseUrl+ "GetUserDetails" + "?userName=" + userName + "&Pass=" + password;
                 //call the api method here
-                var yourClassObject = GetUserDetailsFromAPI(userName, pwd, url);
-                // Console.WriteLine(yourClassObject.ToString());
-                DataTable dt = JsonConvert.DeserializeObject<DataTable>(yourClassObject);
-                //User myu1 = new User();
-                //DataTable res = newUser.getUserDetails(userName, pwd);
-                //myu1 = newUser.DisplayUser(userName, pwd);
-                User user = new User();
-                //  List<User> studentList = new List<Student>();
-                var rowCount = (dt != null ? dt.Rows.Count : 0);
-
+                var yourClassObject = GetUserDetailsFromAPI(userName, password, url);
+                DataTable userListDataTable =( yourClassObject != null ? JsonConvert.DeserializeObject<DataTable>(yourClassObject) : null);
+                myUser = new User();
+                var rowCount = (userListDataTable != null ? userListDataTable.Rows.Count : 0);
                 for (var i = 0; i < rowCount; i++)
                 {
 
-                    user.UserId = Convert.ToInt32(dt.Rows[i]["UserId"]);
-                    user.UserName = dt.Rows[i]["UserName"].ToString();
-                    user.Password = dt.Rows[i]["Pwd"].ToString();
-                    user.Email = dt.Rows[i]["Email"].ToString();
-                    user.Phone = dt.Rows[i]["ContactNo"].ToString();
-                    user.Gender = dt.Rows[i]["Gender"].ToString();
-                    user.DOB = dt.Rows[i]["DOB"].ToString();
-                    user.DeptName = dt.Rows[i]["DeptId"].ToString();
-                    user.RoleId = dt.Rows[i]["RoleId"].ToString();
-                    // studentList.Add(student);
-                }
+                    myUser.UserId = Convert.ToInt32(userListDataTable.Rows[i]["UserId"]);
+                    myUser.UserName = userListDataTable.Rows[i]["UserName"].ToString();
+                    myUser.Password = userListDataTable.Rows[i]["Pwd"].ToString();
+                    myUser.Email = userListDataTable.Rows[i]["Email"].ToString();
+                    myUser.Phone = userListDataTable.Rows[i]["ContactNo"].ToString();
+                    myUser.Gender = userListDataTable.Rows[i]["Gender"].ToString();
+                    myUser.DOB = userListDataTable.Rows[i]["DOB"].ToString();
+                    myUser.DeptName = userListDataTable.Rows[i]["DeptId"].ToString();
+                    myUser.RoleId = userListDataTable.Rows[i]["RoleId"].ToString();
 
-                // Console.WriteLine(myu1.RoleId);
-                if (rowCount > 0 && string.IsNullOrEmpty(user.RoleId))//common user
+                }
+                if (rowCount > 0 && string.IsNullOrEmpty(myUser.RoleId))//common user
                 {
                     TempData["user"] = userName;
-                    // User myu1 =newUser.DisplayUser(userName, pwd);
-                    //  Console.WriteLine(myu1.UserName);
-                    TempData["userName"] = user.UserName;
-                    TempData["userId"] = user.UserId;
-                    TempData["Email"] = user.Email;
-                    TempData["Gender"] = user.Gender;
-                    DateTime dateObject = DateTime.Parse(user.DOB);
+                    TempData["userName"] = myUser.UserName;
+                    TempData["userId"] = myUser.UserId;
+                    TempData["Email"] = myUser.Email;
+                    TempData["Gender"] = myUser.Gender;
+                    DateTime dateObject = DateTime.Parse(myUser.DOB);
                     TempData["DOB"] = dateObject.Date;
-                    // Console.WriteLine(TempData["DOB"]); 
-                    TempData["Phone"] = user.Phone;
-                    TempData["DeptName"] = user.DeptName;
-                    TempData["UserRoleId"] = user.RoleId;
-
+                    TempData["Phone"] = myUser.Phone;
+                    TempData["DeptName"] = myUser.DeptName;
+                    TempData["UserRoleId"] = myUser.RoleId;
                     TempData["Check"] = true;
-                    // Console.WriteLine(TempData["userId"]);
                     return RedirectToAction("Index");
                 }
-                else if (rowCount > 0 && !string.IsNullOrEmpty(user.RoleId))//admin user check
+                else if (rowCount > 0 && !string.IsNullOrEmpty(myUser.RoleId))//admin user check
                 {
-                    TempData["UserRoleId"] = user.RoleId;//storing admin user's role-id
+                    TempData["UserRoleId"] = myUser.RoleId;//storing admin user's role-id
 
                     TempData["Check"] = true;//for identifying admin user on different pages
 
@@ -298,24 +275,23 @@ namespace User_Management_System.Controllers
 
                 else//invalid user
                 {
-
                     ViewBag.Message = "Invalid user";
                     return View("Login");
                 }
             }
             catch (Exception ex)
             {
-                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToHome: Exception => " + ex.ToString(), path);
-               
+                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToHome: Exception => " + ex.ToString(), logFilePath);
+
             }
             return View("Login");
         }
 
-            public IActionResult Register()
+        public IActionResult Register()
         {
             return View();
         }
-        public string PostApiResponse(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone,string url)
+        public string PostApiResponse(string userName, string email, string password, DateOnly dob, string gender, string department, string phone, string url)
         {
             try
             {
@@ -331,42 +307,39 @@ namespace User_Management_System.Controllers
             }
             catch (Exception ex)
             {
-                LogWriter.LogWrite("User_Management_System.Controllers.PostApiResponse: Exception => " + ex.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.PostApiResponse: Exception => " + ex.ToString(), logFilePath);
 
             }
-                    return null;
+            return null;
         }
 
         [HttpPost]
-        public IActionResult RedirectToLogin(string username, string email, string password, DateOnly dob, string Gender, string Department, string phone)
+        public IActionResult RedirectToLogin(string userName, string email, string password, DateOnly dob, string gender, string department, string phone)
         {
             try
             {
-                string url = _custom.Value.Post_API_URL + "?username=" + username + "&email=" + email + "&password=" + password + "&gender=" + Gender + "&dob=" + dob + "&Department=" + Department + "&phone=" + phone;
+                string url = _customConfig.Value.ApiBaseUrl+ "api/Registration" + "?username=" + userName + "&email=" + email + "&password=" + password + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
 
-                var classobject = PostApiResponse(username, email, password, dob, Gender, Department, phone, url);
+                var classobject = PostApiResponse(userName, email, password, dob, gender, department, phone, url);
 
                 myUser = new User();
-                myUser.UserName = username;
+                myUser.UserName = userName;
                 myUser.Email = email;
                 myUser.Password = password;
                 myUser.DOB = dob.ToString();
-                myUser.Gender = Gender;
-                myUser.DeptName = Department;
+                myUser.Gender = gender;
+                myUser.DeptName = department;
                 myUser.Phone = phone;
-
-                //TempData["newuser"] = myUser;
-                //newUser.AddUser(myUser);
                 return RedirectToAction("Login");
             }
             catch (Exception ex)
             {
-                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToLogin: Exception => " + ex.ToString(), path);
+                LogWriter.LogWrite("User_Management_System.Controllers.RedirectToLogin: Exception => " + ex.ToString(), logFilePath);
             }
             return RedirectToAction("Login");
         }
 
-            public IActionResult Contact()
+        public IActionResult Contact()
         {
             return View();
         }

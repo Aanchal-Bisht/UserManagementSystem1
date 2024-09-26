@@ -1,6 +1,6 @@
-@UMSAPI_HostAddress = http://localhost:5045
+@UMSAPI_HostAddress = http://localhost:84
 
-GET {{UMSAPI_HostAddress}}/weatherforecast/
+GET {{UMSAPI_HostAddress}}/UserList/
 Accept: application/json
 
 ###

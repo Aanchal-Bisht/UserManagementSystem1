@@ -15,19 +15,21 @@ namespace UMSAPI.Controllers
         public GetUserDetailsController(IOptions<LogFileConfig> logConfig)
         {
             _logConfig = logConfig;
+
         }
+      
         [HttpGet(Name = "GetUserDetails")]
-        public string Get(string userName, string Pass)
+        public string Get(string userName, string pass)
         {
-                string logFilePath = _logConfig.Value.LogFilePath;
+            string logFilePath = _logConfig.Value.LogFilePath;
             try
             {
-                // User myUser1 = new User();
+               
                 SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
                 SqlCommand cmd = new SqlCommand("userDetails", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("userName", userName);
-                cmd.Parameters.AddWithValue("pass", Pass);
+                cmd.Parameters.AddWithValue("pass", pass);
                 con.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dataTable = new DataTable();
