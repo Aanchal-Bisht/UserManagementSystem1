@@ -14,7 +14,6 @@ namespace UMSAPI.Controllers
             SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
             SqlCommand cmd = new SqlCommand("userList", con);
             cmd.CommandType = CommandType.StoredProcedure;
-
             con.Open();
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataTable dataTable = new DataTable();
@@ -22,8 +21,6 @@ namespace UMSAPI.Controllers
             string json = JsonConvert.SerializeObject(dataTable); 
             con.Close();
             return json;
-
-         
         }
     }
 }
