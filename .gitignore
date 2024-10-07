@@ -152,3 +152,6 @@
 *.css
 /UMSAPI/bin/Release/net8.0/win-x64/createdump.exe
 /.vs/User_Management_System/v17/HierarchyCache.v1.txt
+/LoginTesting/bin/Debug/net8.0/LoginTesting.pdb
+/LoginTesting/obj/Debug/net8.0/LoginTesting.pdb
+/LoginTesting/bin/Debug/net8.0/nunit_random_seed.tmp
