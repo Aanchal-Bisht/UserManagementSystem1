@@ -152,3 +152,5 @@
 *.css
 /UMSAPI/bin/Release/net8.0/win-x64/createdump.exe
 /.vs/User_Management_System/v17/HierarchyCache.v1.txt
+/.vs/User_Management_System/v17/TestStore/0/testlog.manifest
+/.vs/User_Management_System/v17/TestStore/0/000.testlog
