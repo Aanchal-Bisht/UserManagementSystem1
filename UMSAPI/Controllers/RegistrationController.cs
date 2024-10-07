@@ -9,8 +9,9 @@ using Microsoft.Extensions.Options;
 
 namespace UMSAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
+  
 
     public class RegistrationController : ControllerBase { 
 
