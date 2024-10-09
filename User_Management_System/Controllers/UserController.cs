@@ -318,7 +318,7 @@ namespace User_Management_System.Controllers
         {
             try
             {
-                string url = _customConfig.Value.ApiBaseUrl+ "api/Registration" + "?username=" + userName + "&email=" + email + "&password=" + password + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
+                string url = _customConfig.Value.ApiBaseUrl+ "Registration" + "?username=" + userName + "&email=" + email + "&password=" + password + "&gender=" + gender + "&dob=" + dob + "&Department=" + department + "&phone=" + phone;
 
                 var classobject = PostApiResponse(userName, email, password, dob, gender, department, phone, url);
 
