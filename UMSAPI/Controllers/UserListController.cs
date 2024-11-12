@@ -3,7 +3,8 @@ using System.Data;
 using System.Data.SqlClient;
 using Newtonsoft.Json;
 namespace UMSAPI.Controllers
-{
+{ 
+    
     [ApiController]
     [Route("[controller]")]
     public class UserListController : Controller
