@@ -161,3 +161,6 @@
 /LoginTesting/bin/Debug/net8.0/nunit_random_seed.tmp
 >>>>>>> feature/aanchal-new-changes
 /.vs/User_Management_System/v17/TestStore/0/000.testlog
+/LoginTesting/obj/Debug/net8.0
+/LoginTesting/obj
+/User_Management_System/obj/Debug/net8.0
