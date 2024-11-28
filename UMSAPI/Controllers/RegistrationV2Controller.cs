@@ -25,7 +25,7 @@ namespace UMSAPI.Controllers
                     cmd.Parameters.AddWithValue("pass", user.Password);
                     cmd.Parameters.AddWithValue("DOB", DateOnly.Parse(user.DOB));
                     cmd.Parameters.AddWithValue("gen", user.Gender);
-                    cmd.Parameters.AddWithValue("contact", user.Phone);
+                    cmd.Parameters.AddWithValue("contact", user.ContactNo);
                     cmd.Parameters.AddWithValue("DeptId", user.DeptId);
                     con.Open();
 
