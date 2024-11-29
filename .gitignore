@@ -167,3 +167,5 @@
 /LoginTesting/bin/Debug/net8.0
 /LoginTesting/obj/Debug/net8.0/LoginTesting.AssemblyInfo.cs
 /LoginTesting/obj/Debug/net8.0/LoginTesting.GeneratedMSBuildEditorConfig.editorconfig
+/LoginTesting/bin/Release/net8.0/selenium-manager
+/LoginTesting/bin/Release/net8.0
