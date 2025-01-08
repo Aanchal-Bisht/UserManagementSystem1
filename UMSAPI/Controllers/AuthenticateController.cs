@@ -22,7 +22,7 @@ namespace UMSAPI.Controllers
                 }
                 else
                 {
-                    SqlConnection con = new SqlConnection(@"Data Source=192.168.0.89;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
+                    SqlConnection con = new SqlConnection(@"Data Source=192.168.1.43;Initial Catalog=Userdb;User ID=sa;password=droisys@4800;TrustServerCertificate=true");
                     SqlCommand cmd = new SqlCommand("login", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("userName", user.userName);
